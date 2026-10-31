@@ -6,7 +6,7 @@ import {
   Puzzle,
   Trophy,
 } from "lucide-react";
-
+import ProgressBar from "./ProgressBar";
 type Props = {
   onStart: () => void;
 };
@@ -38,6 +38,7 @@ export default function HomeScreen({
             "0 25px 50px rgba(0,0,0,0.15)",
         }}
       >
+        <ProgressBar progress={0} />
         <div
           style={{
             textAlign: "center",
