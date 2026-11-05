@@ -1,3 +1,4 @@
+import ProgressBar from "./ProgressBar";
 type Props = {
   onBack: () => void;
   onNext: () => void;
@@ -30,7 +31,9 @@ export default function TheoryScreen({
           boxShadow:
             "0 20px 50px rgba(0,0,0,0.15)",
         }}
-      >
+        >
+        <ProgressBar progress={33} />
+      
         <h1>📖 Τι είναι ο Αλγόριθμος;</h1>
 
         <p

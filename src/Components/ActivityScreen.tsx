@@ -1,3 +1,5 @@
+import ProgressBar from "./ProgressBar";
+
 type Props = {
   steps: string[];
   onMoveUp: (index: number) => void;
@@ -33,6 +35,8 @@ export default function ActivityScreen({
             "0 20px 50px rgba(0,0,0,0.15)",
         }}
       >
+        <ProgressBar progress={66} />
+        
         <h1>🍞 Φτιάχνω Τοστ</h1>
 
         <p>
