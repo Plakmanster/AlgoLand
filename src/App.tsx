@@ -23,19 +23,6 @@ export default function App() {
     "Παίρνω ψωμί",
   ]);
 
-  const moveUp = (index: number) => {
-    if (index === 0) return;
-
-    const newSteps = [...steps];
-
-    [newSteps[index - 1], newSteps[index]] = [
-      newSteps[index],
-      newSteps[index - 1],
-    ];
-
-    setSteps(newSteps);
-  };
-
   const checkAnswer = () => {
     const correct = [
       "Παίρνω ψωμί",
@@ -67,14 +54,14 @@ export default function App() {
   }
 
   if (screen === "activity") {
-    return (
-      <ActivityScreen
-        steps={steps}
-        onMoveUp={moveUp}
-        onCheck={checkAnswer}
-      />
-    );
-  }
+  return (
+    <ActivityScreen
+      steps={steps}
+      onCheck={checkAnswer}
+      onReorder={setSteps}
+    />
+  );
+}
 
   if (screen === "quiz") {
     return (

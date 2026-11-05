@@ -1,16 +1,81 @@
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
 import ProgressBar from "./ProgressBar";
+import SortableItem from "./SortableItem";
 
 type Props = {
   steps: string[];
-  onMoveUp: (index: number) => void;
   onCheck: () => void;
+  onReorder: (
+    newSteps: string[]
+  ) => void;
 };
 
 export default function ActivityScreen({
   steps,
-  onMoveUp,
   onCheck,
+  onReorder,
 }: Props) {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor)
+  );
+
+  const handleDragEnd = (
+    event: any
+  ) => {
+    const { active, over } =
+      event;
+
+    if (
+      !over ||
+      active.id === over.id
+    ) {
+      return;
+    }
+
+    const oldIndex =
+      steps.findIndex(
+        (item) =>
+          item === active.id
+      );
+
+    const newIndex =
+      steps.findIndex(
+        (item) =>
+          item === over.id
+      );
+
+    if (
+      oldIndex === -1 ||
+      newIndex === -1
+    ) {
+      return;
+    }
+
+    const reordered =
+      arrayMove(
+        steps,
+        oldIndex,
+        newIndex
+      );
+
+    onReorder(reordered);
+  };
+
   return (
     <div
       style={{
@@ -21,14 +86,15 @@ export default function ActivityScreen({
         justifyContent: "center",
         alignItems: "center",
         padding: "20px",
-        fontFamily: "'Poppins', sans-serif",
+        fontFamily:
+          "'Poppins', sans-serif",
       }}
     >
       <div
         style={{
           background: "white",
           width: "100%",
-          maxWidth: "800px",
+          maxWidth: "850px",
           padding: "40px",
           borderRadius: "30px",
           boxShadow:
@@ -36,56 +102,55 @@ export default function ActivityScreen({
         }}
       >
         <ProgressBar progress={66} />
-        
+
         <h1>🍞 Φτιάχνω Τοστ</h1>
 
         <p>
-          Βάλε τα βήματα στη σωστή σειρά για να
-          φτιάξεις ένα τοστ.
+          Σύρε τα βήματα στη σωστή
+          σειρά.
         </p>
 
-        {steps.map((step, index) => (
-          <div
-            key={index}
-            style={{
-              background: "#EEF2FF",
-              padding: "15px",
-              borderRadius: "12px",
-              marginTop: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={
+            closestCenter
+          }
+          onDragEnd={
+            handleDragEnd
+          }
+        >
+          <SortableContext
+            items={steps}
+            strategy={
+              verticalListSortingStrategy
+            }
           >
-            <span>{step}</span>
-
-            <button
-              onClick={() => onMoveUp(index)}
-              style={{
-                border: "none",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
-              ⬆
-            </button>
-          </div>
-        ))}
+            {steps.map((step) => (
+              <SortableItem
+                key={step}
+                id={step}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
 
         <button
           onClick={onCheck}
           style={{
-            marginTop: "20px",
-            background: "#16A34A",
+            marginTop: "25px",
+            background:
+              "#16A34A",
             color: "white",
             border: "none",
-            padding: "14px 24px",
-            borderRadius: "12px",
-            cursor: "pointer",
+            padding:
+              "14px 24px",
+            borderRadius:
+              "12px",
+            cursor:
+              "pointer",
           }}
         >
-          ✅ Έλεγχος Απάντησης
+          ✅ Έλεγχος
         </button>
       </div>
     </div>
