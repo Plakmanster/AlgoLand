@@ -3,10 +3,18 @@ import { useState } from "react";
 import HomeScreen from "./Components/HomeScreen";
 import TheoryScreen from "./Components/TheoryScreen";
 import ActivityScreen from "./Components/ActivityScreen";
+import QuizScreen from "./Components/QuizScreen";
+import ResultsScreen from "./Components/ResultsScreen";
 
 export default function App() {
   const [screen, setScreen] =
-    useState("home");
+    useState<
+      | "home"
+      | "theory"
+      | "activity"
+      | "quiz"
+      | "results"
+    >("home");
 
   const [steps, setSteps] =
     useState([
@@ -44,13 +52,9 @@ export default function App() {
       JSON.stringify(steps) ===
       JSON.stringify(correct)
     ) {
-      alert(
-        "✅ Μπράβο! Βρήκες τη σωστή σειρά!"
-      );
+      setScreen("quiz");
     } else {
-      alert(
-        "❌ Δοκίμασε ξανά!"
-      );
+      alert("❌ Δοκίμασε ξανά!");
     }
   };
 
@@ -73,6 +77,26 @@ export default function App() {
         steps={steps}
         onMoveUp={moveUp}
         onCheck={checkAnswer}
+      />
+    );
+  }
+
+  if (screen === "quiz") {
+    return (
+      <QuizScreen
+        onFinish={() =>
+          setScreen("results")
+        }
+      />
+    );
+  }
+
+  if (screen === "results") {
+    return (
+      <ResultsScreen
+        onRestart={() =>
+          setScreen("home")
+        }
       />
     );
   }
