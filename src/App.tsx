@@ -7,33 +7,28 @@ import QuizScreen from "./Components/QuizScreen";
 import ResultsScreen from "./Components/ResultsScreen";
 
 export default function App() {
-  const [screen, setScreen] =
-    useState<
-      | "home"
-      | "theory"
-      | "activity"
-      | "quiz"
-      | "results"
-    >("home");
+  const [screen, setScreen] = useState<
+    | "home"
+    | "theory"
+    | "activity"
+    | "quiz"
+    | "results"
+  >("home");
 
-  const [steps, setSteps] =
-    useState([
-      "Βάζω τυρί",
-      "Ψήνω το τοστ",
-      "Παίρνω ψωμί",
-    ]);
+  const [score, setScore] = useState(0);
 
-  const moveUp = (
-    index: number
-  ) => {
+  const [steps, setSteps] = useState([
+    "Βάζω τυρί",
+    "Ψήνω το τοστ",
+    "Παίρνω ψωμί",
+  ]);
+
+  const moveUp = (index: number) => {
     if (index === 0) return;
 
     const newSteps = [...steps];
 
-    [
-      newSteps[index - 1],
-      newSteps[index],
-    ] = [
+    [newSteps[index - 1], newSteps[index]] = [
       newSteps[index],
       newSteps[index - 1],
     ];
@@ -84,9 +79,10 @@ export default function App() {
   if (screen === "quiz") {
     return (
       <QuizScreen
-        onFinish={() =>
-          setScreen("results")
-        }
+        onFinish={(finalScore) => {
+          setScore(finalScore);
+          setScreen("results");
+        }}
       />
     );
   }
@@ -94,9 +90,18 @@ export default function App() {
   if (screen === "results") {
     return (
       <ResultsScreen
-        onRestart={() =>
-          setScreen("home")
-        }
+        score={score}
+        onRestart={() => {
+          setScore(0);
+
+          setSteps([
+            "Βάζω τυρί",
+            "Ψήνω το τοστ",
+            "Παίρνω ψωμί",
+          ]);
+
+          setScreen("home");
+        }}
       />
     );
   }

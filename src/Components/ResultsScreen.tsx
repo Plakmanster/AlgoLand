@@ -1,12 +1,24 @@
 import ProgressBar from "./ProgressBar";
 
 type Props = {
+  score: number;
   onRestart: () => void;
 };
 
 export default function ResultsScreen({
+  score,
   onRestart,
 }: Props) {
+  let badge = "🥉 Beginner";
+
+  if (score === 2) {
+    badge = "🥈 Algorithm Explorer";
+  }
+
+  if (score === 3) {
+    badge = "🥇 Junior Algorithm Expert";
+  }
+
   return (
     <div
       style={{
@@ -36,7 +48,9 @@ export default function ResultsScreen({
 
         <h1>🏆 Συγχαρητήρια!</h1>
 
-        <h2>Ολοκλήρωσες το μάθημα!</h2>
+        <h2>
+          Βαθμολογία: {score} / 3
+        </h2>
 
         <div
           style={{
@@ -46,14 +60,12 @@ export default function ResultsScreen({
             marginTop: "25px",
           }}
         >
-          <h3>
-            🥇 Junior Algorithm Expert
-          </h3>
+          <h3>{badge}</h3>
 
           <p>
-            Κατάφερες να μάθεις τι είναι
-            ένας αλγόριθμος και να
-            ολοκληρώσεις το Quiz.
+            Ολοκλήρωσες επιτυχώς το quiz
+            της εφαρμογής Learn Algorithms
+            Junior.
           </p>
         </div>
 

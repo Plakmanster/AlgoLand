@@ -2,147 +2,61 @@ import { useState } from "react";
 import ProgressBar from "./ProgressBar";
 
 type Props = {
-  onFinish: () => void;
+  onFinish: (score: number) => void;
 };
 
-export default function QuizScreen({
-  onFinish,
-}: Props) {
-  const [selected, setSelected] =
-    useState("");
+const questions = [
+  {
+    question: "Τι είναι ένας αλγόριθμος;",
+    answers: ["Ένα παιχνίδι", "Ένας υπολογιστής", "Μια σειρά βημάτων", "Μια ζωγραφιά"],
+    correct: "Μια σειρά βημάτων",
+  },
+  {
+    question: "Ποιο είναι παράδειγμα αλγορίθμου;",
+    answers: ["Μία συνταγή για τοστ", "Ένα χρώμα", "Ένα παιχνίδι", "Ένα βιβλίο"],
+    correct: "Μία συνταγή για τοστ",
+  },
+  {
+    question: "Γιατί χρησιμοποιούμε αλγορίθμους;",
+    answers: ["Για διακόσμηση", "Για σωστή σειρά ενεργειών", "Για ζωγραφική", "Για μουσική"],
+    correct: "Για σωστή σειρά ενεργειών",
+  },
+];
 
-  const [message, setMessage] =
-    useState("");
+export default function QuizScreen({ onFinish }: Props) {
+  const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState("");
+  const [score, setScore] = useState(0);
 
-  const checkAnswer = () => {
-    if (
-      selected ===
-      "Μια σειρά βημάτων"
-    ) {
-      setMessage(
-        "✅ Σωστά!"
-      );
-    } else {
-      setMessage(
-        "❌ Λάθος απάντηση."
-      );
+  const current = questions[index];
+
+  const nextQuestion = () => {
+    const newScore = selected === current.correct ? score + 1 : score;
+
+    if (index === questions.length - 1) {
+      onFinish(newScore);
+      return;
     }
+
+    setScore(newScore);
+    setIndex(index + 1);
+    setSelected("");
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg,#4F46E5,#2563EB)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "20px",
-        fontFamily:
-          "'Poppins', sans-serif",
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          width: "100%",
-          maxWidth: "800px",
-          padding: "40px",
-          borderRadius: "30px",
-          boxShadow:
-            "0 20px 50px rgba(0,0,0,0.15)",
-        }}
-      >
+    <div style={{ minHeight:'100vh', background:'linear-gradient(135deg,#4F46E5,#2563EB)', display:'flex', justifyContent:'center', alignItems:'center', padding:'20px', fontFamily:"Poppins, sans-serif" }}>
+      <div style={{ background:'white', maxWidth:'800px', width:'100%', padding:'40px', borderRadius:'30px' }}>
         <ProgressBar progress={100} />
-
         <h1>❓ Quiz</h1>
-
-        <h2>
-          Τι είναι ένας αλγόριθμος;
-        </h2>
-
-        <div
-          style={{
-            display: "grid",
-            gap: "10px",
-            marginTop: "20px",
-          }}
-        >
-          {[
-            "Ένα παιχνίδι",
-            "Ένας υπολογιστής",
-            "Μια σειρά βημάτων",
-            "Μια ζωγραφιά",
-          ].map((answer) => (
-            <button
-              key={answer}
-              onClick={() =>
-                setSelected(answer)
-              }
-              style={{
-                padding: "14px",
-                borderRadius: "12px",
-                border:
-                  selected === answer
-                    ? "3px solid #4F46E5"
-                    : "1px solid #CBD5E1",
-                background:
-                  selected === answer
-                    ? "#EEF2FF"
-                    : "#FFFFFF",
-                cursor: "pointer",
-              }}
-            >
-              {answer}
-            </button>
+        <h3>Ερώτηση {index + 1}/3</h3>
+        <h2>{current.question}</h2>
+        <div style={{display:'grid', gap:'10px'}}>
+          {current.answers.map(a => (
+            <button key={a} onClick={() => setSelected(a)} style={{padding:'14px', borderRadius:'12px', border:selected===a?'3px solid #4F46E5':'1px solid #CBD5E1'}}>{a}</button>
           ))}
         </div>
-
-        <button
-          onClick={checkAnswer}
-          style={{
-            marginTop: "25px",
-            background: "#4F46E5",
-            color: "white",
-            border: "none",
-            padding: "14px 24px",
-            borderRadius: "12px",
-            cursor: "pointer",
-          }}
-        >
-          Έλεγχος
-        </button>
-
-        {message && (
-          <p
-            style={{
-              marginTop: "15px",
-              fontWeight: "bold",
-            }}
-          >
-            {message}
-          </p>
-        )}
-
-        {message === "✅ Σωστά!" && (
-          <button
-            onClick={onFinish}
-            style={{
-              marginTop: "20px",
-              background: "#16A34A",
-              color: "white",
-              border: "none",
-              padding: "14px 24px",
-              borderRadius: "12px",
-              cursor: "pointer",
-            }}
-          >
-            Ολοκλήρωση
-          </button>
-        )}
+        <button onClick={nextQuestion} disabled={!selected} style={{marginTop:'20px'}}>Συνέχεια</button>
       </div>
     </div>
   );
 }
-
