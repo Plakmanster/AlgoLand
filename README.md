@@ -1,32 +1,51 @@
-# React + TypeScript + Vite
+# Learn Algorithms Junior
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Μία διαδικτυακή εκπαιδευτική εφαρμογή για την εισαγωγή μαθητών Δημοτικού στην έννοια των αλγορίθμων και της υπολογιστικής σκέψης.
 
-Currently, two official plugins are available:
+## Στόχος
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Η εφαρμογή βοηθά τους μαθητές να:
 
-## React Compiler
+- κατανοήσουν τι είναι ένας αλγόριθμος
+- αναγνωρίζουν ακολουθίες βημάτων
+- οργανώνουν διαδικασίες με σωστή σειρά
+- αξιολογούν τις γνώσεις τους μέσω quiz
+- λαμβάνουν ανατροφοδότηση και επιβράβευση
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Εκπαιδευτική Προσέγγιση
 
-## Expanding the Oxlint configuration
+- Constructivism (Εποικοδομητισμός)
+- Learning by Doing
+- Gamification
+- Immediate Feedback
+- Computational Thinking
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## Τεχνολογίες
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+- React
+- TypeScript
+- Vite
+- Framer Motion
+- Lucide React
+- dnd-kit
+- Git
+
+## Εκτέλεση
+
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Ροή Εφαρμογής
+
+HomeScreen → TheoryScreen → ActivityScreen → QuizScreen → ResultsScreen
+
+## Μελλοντικές Επεκτάσεις
+
+- Student Profile
+- Avatar
+- Sound Effects
+- PDF Certificate
+- Dark Mode
+- AI Tutor
