@@ -54,14 +54,14 @@ export default function App() {
   }
 
   if (screen === "activity") {
-  return (
-    <ActivityScreen
-      steps={steps}
-      onCheck={checkAnswer}
-      onReorder={setSteps}
-    />
-  );
-}
+    return (
+      <ActivityScreen
+        steps={steps}
+        onCheck={checkAnswer}
+        onReorder={setSteps}
+      />
+    );
+  }
 
   if (screen === "quiz") {
     return (
@@ -97,6 +97,18 @@ export default function App() {
     <HomeScreen
       onStart={() =>
         setScreen("theory")
+      }
+      onTheory={() =>
+        setScreen("theory")
+      }
+      onActivity={() =>
+        setScreen("activity")
+      }
+      onQuiz={() =>
+        setScreen("quiz")
+      }
+      onCertificate={() =>
+        setScreen("results")
       }
     />
   );
