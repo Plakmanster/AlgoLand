@@ -53,7 +53,7 @@ export default function WelcomeScreen({
               e.target.value
             )
           }
-          placeholder="👤 Το όνομά σου..."
+          placeholder="👤 Βάλε το όνομά σου για να ξεκινήσουμε..."
           onFocus={(e) => {
             e.currentTarget.style.boxShadow =
               "0 0 0 4px rgba(91,61,245,0.35)";
@@ -84,7 +84,7 @@ export default function WelcomeScreen({
 
             textAlign: "center",
 
-            fontSize: "20px",
+            fontSize: "clamp(12px, 1.8vw, 20px)",
 
             fontWeight: 600,
 
@@ -127,7 +127,7 @@ export default function WelcomeScreen({
               "bold",
 
             fontSize:
-              "18px",
+              "clamp(12px, 1.8vw, 18px)",
 
             cursor:
               canStart
