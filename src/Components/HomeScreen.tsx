@@ -6,7 +6,7 @@ import {
   Award,
 } from "lucide-react";
 import LearningPath from "./LearningPath";
-import StudentProfile from "./StudentProfile";
+
 
 type Props = {
   onStart: () => void;
@@ -72,11 +72,6 @@ export default function HomeScreen(props: Props) {
             </p>
           </div>
         </div>
-
-        <StudentProfile
-          studentName={props.studentName}
-          onNameChange={props.onNameChange}
-        />
 
         <LearningPath current={0} />
 
