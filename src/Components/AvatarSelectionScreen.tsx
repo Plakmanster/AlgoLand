@@ -20,7 +20,8 @@ export default function AvatarSelectionScreen({ studentName, onBack, onContinue 
 
   return (
     <main className="algoland-avatar-screen">
-      <div className="algoland-avatar-content">
+      <div className="algoland-avatar-scene">
+        <img className="algoland-avatar-scene-image" src="/assets/avatar-selection-background.webp" alt="" aria-hidden="true" />
         <header className="algoland-avatar-header">
           <button type="button" className="algoland-avatar-back" onClick={onBack}>← Πίσω</button>
           <div className="algoland-avatar-intro">
@@ -29,19 +30,17 @@ export default function AvatarSelectionScreen({ studentName, onBack, onContinue 
             <p>{studentName.trim() ? `${studentName.trim()}, διάλεξε` : 'Διάλεξε'} τον ήρωα που θα σε συντροφεύει στο AlgoLand!</p>
           </div>
         </header>
-        <section className="algoland-avatar-grid" aria-label="Επιλογή χαρακτήρα">
-          {avatars.map(avatar => (
-            <AvatarCard key={avatar.id} avatar={avatar} selected={selectedId === avatar.id} onSelect={setSelectedId} />
-          ))}
-        </section>
-        <button
-          type="button"
-          className="algoland-avatar-continue"
-          disabled={!selectedId}
-          onClick={() => { if (selectedId) onContinue(selectedId); }}
-        >
-          Ξεκινάμε την περιπέτεια! →
-        </button>
+        <div className="algoland-avatar-content">
+          <section className="algoland-avatar-grid" aria-label="Επιλογή χαρακτήρα">
+            {avatars.map(avatar => (
+              <AvatarCard key={avatar.id} avatar={avatar} selected={selectedId === avatar.id} onSelect={setSelectedId} />
+            ))}
+          </section>
+          <button type="button" className="algoland-avatar-continue" disabled={!selectedId}
+            onClick={() => { if (selectedId) onContinue(selectedId); }}>
+            Ξεκινάμε την περιπέτεια! →
+          </button>
+        </div>
       </div>
     </main>
   );
