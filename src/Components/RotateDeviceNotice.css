@@ -1,0 +1,59 @@
+/* AlgoLand: portrait-phone rotation prompt. Hidden by default. */
+.algoland-rotate-notice { display: none; }
+
+/* No pointer: coarse requirement: Firefox responsive mode also works. */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .algoland-rotate-notice {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 2147483647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background: radial-gradient(circle at top, #6040a0 0%, #29174f 62%, #1b103b 100%);
+    color: #fff8e7;
+    font-family: 'Poppins', system-ui, sans-serif;
+    text-align: center;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .algoland-rotate-notice__card {
+    width: min(100%, 380px);
+    box-sizing: border-box;
+    padding: 26px 18px;
+    border: 3px solid #f2c66b;
+    border-radius: 28px;
+    background: rgba(47, 25, 95, .96);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .35), 0 0 22px rgba(242, 198, 107, .25);
+  }
+
+  .algoland-rotate-notice__symbol {
+    display: block;
+    font-size: clamp(48px, 14vw, 74px);
+    margin-bottom: 12px;
+  }
+
+  .algoland-rotate-notice h2 {
+    margin: 0 0 12px;
+    font-size: clamp(20px, 6vw, 28px);
+    color: #ffe09b;
+  }
+
+  .algoland-rotate-notice p {
+    margin: 0 0 12px;
+    font-size: clamp(14px, 4vw, 17px);
+    line-height: 1.55;
+  }
+
+  .algoland-rotate-notice .algoland-rotate-notice__hint {
+    margin-bottom: 0;
+    color: #f4d79b;
+    font-weight: 700;
+  }
+}

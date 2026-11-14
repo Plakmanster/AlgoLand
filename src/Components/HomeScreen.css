@@ -1,0 +1,478 @@
+/* AlgoLand v8.3 — Μαγική Αυλή. Τα τέσσερα κουμπιά είναι πραγματικά HTML buttons. */
+.castle-courtyard {
+  min-height: 100vh;
+  background: #25164c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+.castle-courtyard-scene {
+  position: relative;
+  width: min(100%, 1536px);
+  aspect-ratio: 3 / 2;
+  background: url('/assets/magical-courtyard-background.webp') center / 100% 100% no-repeat;
+  isolation: isolate;
+}
+.castle-courtyard-greeting {
+  position: absolute;
+  top: 23%; left: 26%; width: 48%;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: clamp(5px, 1vw, 13px);
+  border: 1px solid rgba(255, 222, 142, .8);
+  border-radius: 16px;
+  background: rgba(38, 20, 85, .85);
+  box-shadow: 0 4px 16px rgba(32, 13, 71, .3);
+  color: white; text-align: center;
+  font-size: clamp(9px, 1.2vw, 17px);
+}
+.castle-courtyard-greeting strong { color: #ffe6a0; font-size: 1.15em; }
+.castle-courtyard-gates { position: absolute; inset: 0; pointer-events: none; }
+.castle-courtyard-gate {
+  position: absolute;
+  top: 39%; width: 13%; height: 27%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(2px, .35vw, 5px);
+  padding: 4px 3px;
+  color: white; cursor: pointer; pointer-events: auto;
+  border: 2px solid rgba(255, 228, 144, .85);
+  border-radius: 28% 28% 14% 14%;
+  background: linear-gradient(180deg, rgba(39, 20, 72, .89), rgba(30, 13, 65, .55));
+  box-shadow: inset 0 0 18px rgba(255, 219, 111, .17), 0 5px 12px rgba(22, 9, 52, .35);
+  text-shadow: 0 2px 3px rgba(0,0,0,.7);
+  text-align: center;
+  font: inherit;
+  font-size: clamp(9px, 1.2vw, 18px);
+  line-height: 1.15;
+}
+.castle-courtyard-gate:hover, .castle-courtyard-gate:focus-visible {
+  outline: 3px solid #fff1ae;
+  outline-offset: 2px;
+  box-shadow: 0 0 30px rgba(255, 236, 131, .9), inset 0 0 28px rgba(255, 224, 124, .3);
+}
+.castle-courtyard-gate--library { left: 28.1%; background-color: rgba(89, 34, 155, .35); }
+.castle-courtyard-gate--workshop { left: 46.3%; background-color: rgba(3, 127, 98, .45); }
+.castle-courtyard-gate--quiz { left: 64.4%; background-color: rgba(187, 113, 5, .4); }
+.castle-courtyard-gate--awards { left: 82.5%; background-color: rgba(150, 18, 95, .4); }
+ .castle-courtyard-gate-icon {
+  display: block; width: 96%; height: 52%; object-fit: contain;
+  border-radius: 8px; filter: drop-shadow(0 0 8px rgba(255,220,120,.5));
+  transition: filter .2s ease, transform .2s ease;
+}
+.castle-courtyard-gate:hover .castle-courtyard-gate-icon,
+.castle-courtyard-gate:focus-visible .castle-courtyard-gate-icon {
+  filter: brightness(1.18) drop-shadow(0 0 10px rgba(255,225,130,.75)); transform: scale(1.06);
+}
+.castle-courtyard-gate-title { font-weight: 800; }
+.castle-courtyard-gate-subtitle { font-size: .82em; color: #ffe9a9; }
+.castle-courtyard-companions { position: absolute; inset: 0; pointer-events: none; }
+.castle-courtyard-companion {
+  position: absolute; bottom: 5%; width: 17%;
+  display: flex; flex-direction: column; align-items: center;
+}
+.castle-courtyard-companion--bot { left: 3%; }
+.castle-courtyard-companion--avatar { right: 3%; }
+.castle-courtyard-companion img {
+  width: min(100%, 200px); height: auto;
+  max-height: clamp(65px, 15vw, 200px); object-fit: contain;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,.4));
+}
+.castle-courtyard-companion p {
+  margin: 0; width: 100%; box-sizing: border-box;
+  padding: 8px; border: 2px solid #e7b957; border-radius: 14px;
+  background: #fff9e9; color: #43216b; text-align: center;
+  font-size: clamp(9px, .9vw, 14px);
+  box-shadow: 0 4px 8px rgba(0,0,0,.2);
+}
+.castle-courtyard-companion strong { display: block; color: #7234aa; }
+@media (max-width: 800px) {
+  .castle-courtyard { display: block; min-height: 100vh; padding-bottom: 18px; }
+  .castle-courtyard-scene { aspect-ratio: auto; min-height: 100vh; background-size: 100% auto; background-position: top center; }
+  .castle-courtyard-greeting { top: 19vw; left: 8%; width: 84%; box-sizing: border-box; font-size: 12px; }
+  .castle-courtyard-gates { position: relative; inset: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0 14px; margin-top: 68vw; }
+  .castle-courtyard-gate { position: static; width: 100%; min-height: 120px; height: auto; border-radius: 20px; font-size: 15px; }
+  .castle-courtyard-companions { position: relative; inset: auto; display: flex; justify-content: space-between; gap: 12px; padding: 18px 14px 0; }
+  .castle-courtyard-companion { position: static; width: min(46%, 220px); }
+  .castle-courtyard-companion img { max-height: 130px; }
+  .castle-courtyard-companion p { font-size: 11px; }
+}
+@media (max-width: 380px) {
+  .castle-courtyard-gates { grid-template-columns: 1fr; }
+  .castle-courtyard-gate { min-height: 80px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .castle-courtyard-gate { transition: none; }
+}
+
+/* Gold navigation controls placed ON the paving stones, between both companions. */
+.castle-courtyard-bottom-nav {
+  position: absolute;
+  left: 24%;
+  bottom: 3.2%;
+  width: 52%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(6px, 1vw, 16px);
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.castle-courtyard-bottom-nav button,
+.castle-courtyard-nav-location {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: clamp(6px, .7vw, 11px) clamp(8px, 1vw, 17px);
+  border-radius: 12px;
+  font: 700 clamp(10px, .95vw, 14px) 'Poppins', sans-serif;
+  white-space: nowrap;
+  color: #fff2c8;
+  border: 2px solid #e5b958;
+  background: linear-gradient(160deg, #6a399b, #42236e);
+  box-shadow: 0 3px 0 #a77530, 0 5px 16px rgba(0,0,0,.3);
+}
+.castle-courtyard-bottom-nav button { cursor: pointer; }
+.castle-courtyard-bottom-nav button:hover,
+.castle-courtyard-bottom-nav button:focus-visible {
+  outline: 2px solid #fff2bc;
+  outline-offset: 3px;
+  background: linear-gradient(160deg, #8b52bd, #57328a);
+}
+.castle-courtyard-nav-location { opacity: .9; }
+@media (max-width: 800px) {
+  /* On narrow screens the gates are cards; navigation follows them in document flow. */
+  .castle-courtyard-bottom-nav {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    margin: 20px 14px 12px;
+  }
+  .castle-courtyard-gate-icon { width: 95%; height: 76px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .castle-courtyard-gate-icon { transition: none; }
+}
+
+/* v8.3 refinement: full illustrated portal art including embedded Greek labels.
+   Buttons stay semantic and keyboard accessible; no duplicated HTML labels. */
+.castle-courtyard-gate {
+  padding: 0;
+  border: 0;
+  border-radius: 42% 42% 4% 4% / 24% 24% 4% 4%;
+  background: transparent !important;
+  box-shadow: none;
+  overflow: visible;
+  top: 39.5%;
+  height: 26.4%;
+}
+.castle-courtyard-gate-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 42% 42% 4% 4% / 24% 24% 4% 4%;
+  filter: drop-shadow(0 0 5px rgba(255,208,98,.5));
+  transition: filter .2s ease;
+}
+.castle-courtyard-gate:hover,
+.castle-courtyard-gate:focus-visible {
+  box-shadow: none;
+  outline: 3px solid #fff1ae;
+  outline-offset: 2px;
+}
+.castle-courtyard-gate:hover .castle-courtyard-gate-art,
+.castle-courtyard-gate:focus-visible .castle-courtyard-gate-art {
+  filter: brightness(1.12) drop-shadow(0 0 12px #ffd36e);
+}
+/* Let the rightmost portal stay above the character's decorative layer. */
+.castle-courtyard-gates { z-index: 3; }
+.castle-courtyard-companions { z-index: 2; }
+.castle-courtyard-companion--avatar { right: 1%; bottom: 4%; width: 15%; }
+.castle-courtyard-bottom-nav { z-index: 5; bottom: 3.4%; }
+.castle-courtyard-bottom-nav button,
+.castle-courtyard-nav-location {
+  border: 2px solid #f4cb6a;
+  background: linear-gradient(155deg, #7840aa, #44236f);
+  color: #fff6d9;
+  font-size: clamp(11px, 1.02vw, 15px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 3px 0 #a8752e, 0 5px 14px rgba(0,0,0,.34);
+}
+@media (max-width: 800px) {
+  .castle-courtyard-gate { height: auto; min-height: 0; aspect-ratio: 173 / 262; max-width: 210px; justify-self: center; }
+  .castle-courtyard-gate-art { width: 100%; height: 100%; }
+  .castle-courtyard-companion--avatar { width: min(46%,220px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .castle-courtyard-gate-art { transition: none; }
+}
+
+/* v8.3 — Both companions in the left stone arcade, AlgoBot above avatar.
+   Keep portal art and navigation unchanged. */
+@media (min-width: 801px) {
+  .castle-courtyard-companion--bot,
+  .castle-courtyard-companion--avatar {
+    left: 2.2%;
+    right: auto;
+    width: 18%;
+    bottom: auto;
+  }
+  .castle-courtyard-companion--bot { top: 33%; }
+  .castle-courtyard-companion--avatar { top: 62%; }
+  .castle-courtyard-companion img {
+    width: 100%;
+    height: clamp(44px, 9vw, 125px);
+    max-height: none;
+    object-fit: contain;
+  }
+  .castle-courtyard-companion p {
+    width: 94%;
+    padding: clamp(3px, .5vw, 7px);
+    font-size: clamp(8px, .85vw, 13px);
+    line-height: 1.25;
+  }
+  .castle-courtyard-bottom-nav {
+    left: 24%;
+    width: 52%;
+  }
+}
+/* Mobile keeps both companions together, now stacked on the left. */
+@media (max-width: 800px) {
+  .castle-courtyard-companions {
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .castle-courtyard-companion--bot,
+  .castle-courtyard-companion--avatar {
+    position: static;
+    width: min(60%, 230px);
+    max-width: 100%;
+  }
+  .castle-courtyard-companion img { max-height: 110px; }
+}
+
+/* v8.3 — Larger, more readable companion speech bubbles. */
+@media (min-width: 801px) {
+  .castle-courtyard-companion--bot,
+  .castle-courtyard-companion--avatar {
+    left: 1.3%;
+    width: 22%;
+  }
+  .castle-courtyard-companion p {
+    width: 100%;
+    padding: clamp(7px, .9vw, 12px);
+    font-size: clamp(10px, 1.12vw, 16px);
+    line-height: 1.4;
+    border-radius: 15px;
+  }
+}
+@media (max-width: 800px) {
+  .castle-courtyard-companion--bot,
+  .castle-courtyard-companion--avatar { width: min(75%, 260px); }
+  .castle-courtyard-companion p {
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
+/* v8.3 — Raise AlgoBot slightly to balance spacing above the avatar. */
+@media (min-width: 801px) {
+  .castle-courtyard-companion--bot { top: 29%; }
+}
+
+/* v8.3 — Stronger magical purple borders on both speech bubbles. */
+.castle-courtyard-companion p {
+  border: 3px solid #7B2CBF;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .20), 0 0 9px rgba(123, 44, 191, .24);
+}
+
+
+/* v8.3 — Comic speech bubbles with a tail pointing up toward each speaker. */
+.castle-courtyard-companion p {
+  position: relative;
+  isolation: isolate;
+  border: 3px solid #7b2cbf;
+  border-radius: 48% / 42%;
+  background: #fff9e9;
+  padding: clamp(10px, 1.05vw, 16px) clamp(12px, 1.2vw, 20px);
+  box-shadow: 0 4px 10px rgba(0,0,0,.20), 0 0 9px rgba(123,44,191,.24);
+  overflow: visible;
+}
+/* Purple outline, followed by a smaller cream-colored inner tail. */
+.castle-courtyard-companion p::before,
+.castle-courtyard-companion p::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.castle-courtyard-companion p::before {
+  top: -18px;
+  left: 32%;
+  border-left: 13px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 19px solid #7b2cbf;
+}
+.castle-courtyard-companion p::after {
+  top: -11px;
+  left: calc(32% + 4px);
+  border-left: 8px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 14px solid #fff9e9;
+}
+@media (max-width: 800px) {
+  .castle-courtyard-companion p {
+    border-radius: 44% / 38%;
+    padding: 13px 17px;
+  }
+}
+
+/* v8.3 — Mobile courtyard: compact 2×2 portal grid. Desktop stays untouched. */
+@media (max-width: 800px) {
+  .castle-courtyard {
+    display: block;
+    min-height: 100dvh;
+    padding: 0 0 18px;
+    overflow-x: clip;
+    background: #25164c;
+  }
+  .castle-courtyard-scene {
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    aspect-ratio: auto;
+    box-sizing: border-box;
+    padding: clamp(135px, 43vw, 235px) 12px 22px;
+    background-image: url('/assets/magical-courtyard-background.webp');
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+  }
+  .castle-courtyard-greeting {
+    position: absolute;
+    top: clamp(74px, 23vw, 135px);
+    left: 8%;
+    width: 84%;
+    box-sizing: border-box;
+    padding: 7px 9px;
+    font-size: clamp(10px, 2.7vw, 13px);
+    line-height: 1.25;
+    z-index: 4;
+  }
+  .castle-courtyard-gates {
+    position: relative;
+    inset: auto;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: center;
+    align-items: start;
+    gap: 12px 10px;
+    padding: 0;
+    margin: 0 auto;
+    width: min(100%, 490px);
+    pointer-events: auto;
+  }
+  .castle-courtyard-gate {
+    position: relative;
+    inset: auto;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-width: 215px;
+    aspect-ratio: 173 / 262;
+    padding: 0;
+    justify-self: center;
+    border: 0;
+    border-radius: 42% 42% 4% 4% / 24% 24% 4% 4%;
+    background: transparent !important;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .castle-courtyard-gate-art {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+  .castle-courtyard-companions {
+    position: relative;
+    inset: auto;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    justify-items: center;
+    gap: 12px;
+    width: min(100%, 490px);
+    margin: 18px auto 0;
+    padding: 0;
+    pointer-events: none;
+  }
+  .castle-courtyard-companion--bot,
+  .castle-courtyard-companion--avatar {
+    position: static;
+    inset: auto;
+    width: 100%;
+    max-width: 225px;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .castle-courtyard-companion img {
+    display: block;
+    width: 100%;
+    height: 105px;
+    max-height: 105px;
+    object-fit: contain;
+  }
+  .castle-courtyard-companion p {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 6px;
+    padding: 12px 10px;
+    font-size: clamp(10px, 2.8vw, 13px);
+    line-height: 1.35;
+    border-radius: 44% / 38%;
+    overflow-wrap: anywhere;
+  }
+  .castle-courtyard-bottom-nav {
+    position: relative;
+    inset: auto;
+    left: auto;
+    bottom: auto;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    width: min(100%, 490px);
+    box-sizing: border-box;
+    margin: 20px auto 0;
+    padding: 0;
+    gap: 9px;
+  }
+  .castle-courtyard-bottom-nav button,
+  .castle-courtyard-nav-location {
+    max-width: 100%;
+    min-height: 42px;
+    font-size: clamp(10px, 2.8vw, 13px);
+    white-space: normal;
+    text-align: center;
+  }
+}
+@media (max-width: 380px) {
+  .castle-courtyard-gates { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 7px; }
+  .castle-courtyard-scene { padding-left: 9px; padding-right: 9px; }
+  .castle-courtyard-companions { gap: 8px; }
+}

@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
-import {
-  BookOpenCheck,
-  Workflow,
-  BrainCircuit,
-  Award,
-} from "lucide-react";
-import LearningPath from "./LearningPath";
-
+import { ArrowLeft, Castle } from "lucide-react";
+import type { AvatarId } from "./AvatarCard";
+import "./HomeScreen.css";
 
 type Props = {
   onStart: () => void;
@@ -16,78 +11,60 @@ type Props = {
   onCertificate: () => void;
   studentName: string;
   onNameChange: (value: string) => void;
+  avatarId?: AvatarId | null;
+  onBack?: () => void;
+};
+
+const avatars: Record<AvatarId, { name: string; image: string }> = {
+  "explorer-max": { name: "Explorer Max", image: "/assets/avatars/ExplorerMax.png" },
+  "tech-nova": { name: "Tech Nova", image: "/assets/avatars/TechNova.png" },
+  "robo-cadet": { name: "RoboCadet", image: "/assets/avatars/RoboCadet.png" },
+  "wizard-of-logic": { name: "Wizard of Logic", image: "/assets/avatars/WizardOfLogic.png" },
 };
 
 export default function HomeScreen(props: Props) {
-  const cards = [
-    {
-      icon: BookOpenCheck,
-      title: "Theory",
-      description: "Μάθε τι είναι οι αλγόριθμοι",
-      background: "linear-gradient(135deg,#60A5FA,#2563EB)",
-      onClick: props.onTheory,
-    },
-    {
-      icon: Workflow,
-      title: "Activity",
-      description: "Ταξινόμησε σωστά τα βήματα",
-      background: "linear-gradient(135deg,#34D399,#10B981)",
-      onClick: props.onActivity,
-    },
-    {
-      icon: BrainCircuit,
-      title: "Quiz",
-      description: "Έλεγξε τις γνώσεις σου",
-      background: "linear-gradient(135deg,#FCD34D,#F59E0B)",
-      onClick: props.onQuiz,
-    },
-    {
-      icon: Award,
-      title: "Certificate",
-      description: "Δες τα αποτελέσματα",
-      background: "linear-gradient(135deg,#F9A8D4,#EC4899)",
-      onClick: props.onCertificate,
-    },
-  ];
-
+  const avatar = props.avatarId ? avatars[props.avatarId] : null;
+  const gates = [
+    { key: "library", title: "Μαγική Βιβλιοθήκη", subtitle: "Θεωρία", onClick: props.onTheory },
+    { key: "workshop", title: "Εργαστήριο Γρίφων", subtitle: "Δραστηριότητες", onClick: props.onActivity },
+    { key: "quiz", title: "Αίθουσα Δοκιμασιών", subtitle: "Quiz", onClick: props.onQuiz },
+    { key: "awards", title: "Αίθουσα Επιτευγμάτων", subtitle: "Αποτελέσματα", onClick: props.onCertificate },
+  ] as const;
   return (
-    <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#312E81,#2563EB)',padding:'20px',fontFamily:'Poppins,sans-serif'}}>
-      <div style={{maxWidth:'1200px',margin:'0 auto',background:'rgba(255,255,255,0.95)',borderRadius:'32px',padding:'40px'}}>
-
-        <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'24px',flexWrap:'wrap',marginBottom:'20px'}}>
-          <motion.div animate={{y:[0,-8,0]}} transition={{duration:3,repeat:Infinity}}>
-            <div style={{fontSize:'56px'}}>🤖</div>
-          </motion.div>
-
-          <div style={{textAlign:'left'}}>
-            <h1 style={{margin:0,fontSize:'clamp(2.2rem,5vw,4rem)',lineHeight:1}}>
-              <span style={{color:'#1E293B'}}>Learn Algorithms</span><br/>
-              <span style={{color:'#4F46E5'}}>Junior</span>
-            </h1>
-            <p style={{fontSize:'1.1rem',color:'#64748B'}}>
-              Γεια σου {props.studentName || 'μαθητή'}!
-            </p>
-            <p style={{color:'#475569'}}>
-              Έτοιμος να γίνεις Junior Algorithm Expert;
-            </p>
+    <main className="castle-courtyard">
+      <div className="castle-courtyard-scene">
+        <div className="castle-courtyard-greeting" aria-live="polite">
+          <strong>Καλώς ήρθες{props.studentName.trim() ? `, ${props.studentName.trim()}` : ""}!</strong>
+          <span>Διάλεξε μια μαγική πύλη για την επόμενη περιπέτειά σου.</span>
+        </div>
+        <nav className="castle-courtyard-gates" aria-label="Οι αίθουσες του Κάστρου της Γνώσης">
+          {gates.map(({ key, title, subtitle, onClick }) => (
+            <motion.button key={key} type="button"
+              className={`castle-courtyard-gate castle-courtyard-gate--${key}`}
+              onClick={onClick} whileHover={{ y: -5, scale: 1.035 }} whileTap={{ scale: .97 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              aria-label={`${title} — ${subtitle}`}>
+              <img className="castle-courtyard-gate-art" src={`/assets/courtyard-portal-${key}.webp`} alt="" aria-hidden="true" />
+            </motion.button>
+          ))}
+        </nav>
+        <div className="castle-courtyard-companions">
+          <div className="castle-courtyard-companion castle-courtyard-companion--bot">
+            <img src="/assets/AlgoBot.png" alt="AlgoBot" />
+            <p><strong>AlgoBot</strong>Ποια πύλη θα εξερευνήσουμε σήμερα;</p>
           </div>
+          {avatar && <div className="castle-courtyard-companion castle-courtyard-companion--avatar">
+            <img src={avatar.image} alt={avatar.name} />
+            <p><strong>{avatar.name}</strong>Είμαι έτοιμος για περιπέτεια!</p>
+          </div>}
         </div>
-
-        <LearningPath current={0} />
-
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:'20px'}}>
-          {cards.map(card => {
-            const Icon = card.icon;
-            return (
-              <motion.div key={card.title} onClick={card.onClick} whileHover={{scale:1.03,y:-10}} whileTap={{scale:0.98}} style={{background:card.background,color:'white',borderRadius:'24px',padding:'25px',cursor:'pointer'}}>
-                <Icon size={48}/>
-                <h2>{card.title}</h2>
-                <p>{card.description}</p>
-              </motion.div>
-            );
-          })}
-        </div>
+        <nav className="castle-courtyard-bottom-nav" aria-label="Πλοήγηση Μαγικής Αυλής">
+        <button type="button" onClick={props.onBack ?? props.onStart}>
+          <ArrowLeft size={19} aria-hidden="true" /> Πίσω στην επιλογή ήρωα
+        </button>
+        <span className="castle-courtyard-nav-location" aria-current="page"><Castle size={19} aria-hidden="true" /> Μαγική Αυλή</span>
+        </nav>
       </div>
-    </div>
+    </main>
   );
 }
