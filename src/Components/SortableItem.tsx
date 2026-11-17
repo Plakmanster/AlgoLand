@@ -1,45 +1,22 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-type Props = {
-  id: string;
-};
+type Props = { id: string; icon?: string; disabled?: boolean };
 
-export default function SortableItem({
-  id,
-}: Props) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id });
-
-  const style = {
-    transform:
-      CSS.Transform.toString(
-        transform
-      ),
-    transition,
-    background: "#EEF2FF",
-    padding: "18px",
-    borderRadius: "16px",
-    marginTop: "12px",
-    cursor: "grab",
-    touchAction: "none" as const,
-    boxShadow:
-      "0 4px 10px rgba(0,0,0,0.1)",
-  };
+export default function SortableItem({ id, icon = "✨", disabled = false }: Props) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id, disabled });
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-    >
-      {id}
-    </div>
+    <li ref={setNodeRef}
+      {...attributes} {...listeners}
+      role="button" tabIndex={disabled ? -1 : 0}
+      aria-label={`Σύρε την εντολή: ${id}`}
+      className={`workshop__step ${isDragging ? "is-dragging" : ""}`}
+      style={{ transform: CSS.Transform.toString(transform), transition }}>
+      <span className="workshop__step-icon" aria-hidden="true">{icon}</span>
+      <span className="workshop__step-text">{id}</span>
+      <span className="workshop__drag" aria-hidden="true">⠿</span>
+    </li>
   );
 }

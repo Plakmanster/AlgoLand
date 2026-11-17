@@ -1,3 +1,4 @@
+import "./WelcomeScreenPortrait.css";
 import welcomeImage from "../assets/welcome-screen.webp";
 
 type Props = {
@@ -27,6 +28,11 @@ export default function WelcomeScreen({
           "Poppins, sans-serif",
       }}
     >
+      <div className="algoland-welcome-portrait-notice" role="status" aria-live="polite">
+        <span className="algoland-welcome-portrait-icon" aria-hidden="true">📱</span>
+        <strong>Γύρισε το κινητό σου κάθετα!</strong>
+        <span>Για να ξεκινήσεις τη μαγική περιπέτεια, κράτησε τη συσκευή σε κατακόρυφη θέση.</span>
+      </div>
       <div
         style={{
           width: "100%",

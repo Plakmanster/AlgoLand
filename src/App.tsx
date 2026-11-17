@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import RotateDeviceNotice from "./Components/RotateDeviceNotice";
 import AvatarSelectionScreen from "./Components/AvatarSelectionScreen";
 import type { AvatarId } from "./Components/AvatarCard";
@@ -17,16 +17,14 @@ export default function App() {
   const [avatarId, setAvatarId] = useState<AvatarId | null>(null);
   console.log("Selected AlgoLand avatar:", avatarId);
   const [score, setScore] = useState(0);
-  const [steps, setSteps] = useState(["Βάζω τυρί", "Ψήνω το τοστ", "Παίρνω ψωμί"]);
 
-  const checkAnswer = () => {
-    const correct = ["Παίρνω ψωμί", "Βάζω τυρί", "Ψήνω το τοστ"];
-    JSON.stringify(steps) === JSON.stringify(correct)
-      ? setScreen("quiz")
-      : alert("❌ Δοκίμασε ξανά!");
-  };
-
-  // Η προτροπή εμφανίζεται μόνο στις οθόνες avatar και home.
+  // Reset the viewport whenever the application changes screens.
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [screen]);
+  // Η υπάρχουσα προτροπή οριζόντιας προβολής αφορά τις επόμενες οθόνες.
   const withRotateNotice = (content: React.ReactNode) => (
     <>
       {content}
@@ -68,7 +66,7 @@ export default function App() {
   }
 
   if (screen === "activity") {
-    return <ActivityScreen steps={steps} onCheck={checkAnswer} onReorder={setSteps} />;
+    return withRotateNotice(<ActivityScreen avatarId={avatarId} onBack={() => setScreen("home")} onComplete={() => setScreen("quiz")} />);
   }
 
   if (screen === "quiz") {

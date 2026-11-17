@@ -1,0 +1,753 @@
+/* AlgoLand v8.4 — illustrated workshop, CSS-only interactive overlay */
+.workshop { min-height:100dvh; margin:0; color:#29153e; font-family:'Poppins',system-ui,sans-serif; background:#24153e; }
+.workshop * {box-sizing:border-box}
+.workshop__room {position:relative; isolation:isolate; min-height:100dvh; width:100%; overflow:hidden; padding:clamp(12px,1.5vw,25px) clamp(12px,2vw,32px) 38px; background:#24153e url('/assets/magical-workshop-background.webp') center center/cover no-repeat;}
+.workshop__room::before {content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(28,12,42,.1),transparent 25%,transparent 75%,rgba(24,11,39,.08));pointer-events:none}
+.workshop__header {position:relative;z-index:2;display:grid;grid-template-columns:1fr minmax(290px,2.3fr) 1fr;align-items:start;gap:12px;max-width:1650px;margin:0 auto 16px}
+.workshop__heading {justify-self:center;min-width:min(100%,550px);text-align:center;color:#fff2c3;background:linear-gradient(175deg,#8b2da0 0%,#511575 70%,#361251 100%);border:4px ridge #ffce6a;border-radius:18px;padding:6px 25px 9px;box-shadow:0 0 0 3px #6c2675,0 6px 0 #351047,0 8px 22px #2d0b4e,0 0 24px #f4a73c9a;text-shadow:0 3px 2px #381048}
+.workshop__eyebrow {display:block;margin:-21px auto 2px;padding:4px 18px;width:max-content;max-width:100%;font-weight:800;font-size:clamp(10px,1vw,14px);background:#571a74;border:2px solid #f5c26a;border-radius:14px;letter-spacing:.03em}
+.workshop__heading h1 {font-size:clamp(22px,2.7vw,44px);line-height:1.1;margin:3px 0 0;white-space:nowrap}
+.workshop__back {justify-self:start;border:3px solid #ffce74;border-radius:999px;background:linear-gradient(#8534a7,#4c1b74);color:#fff8d5;box-shadow:0 4px 0 #3a1653,0 0 0 2px #522169;padding:9px 16px;font-weight:800;font-size:clamp(11px,1.1vw,16px);cursor:pointer}
+.workshop__stars {justify-self:end;display:flex;align-items:center;min-height:43px;padding:4px 10px;border-radius:15px;background:#25103fbb;color:#ffca51;font-size:clamp(21px,2.4vw,34px);letter-spacing:1px;text-shadow:0 2px 1px #54254b,0 0 9px #ffdc5b}
+.workshop__layout {position:relative;z-index:1;max-width:1650px;margin:0 auto;display:grid;grid-template-columns:clamp(145px,23%,310px) minmax(0,1fr);gap:clamp(8px,2vw,35px);align-items:start}
+.workshop__companions {display:flex;flex-direction:column;gap:clamp(10px,2vw,25px);padding-top:clamp(70px,8vw,135px)}
+.workshop__companion {position:relative;display:flex;flex-direction:column;align-items:center}
+.workshop__companion img {width:100%;max-width:clamp(105px,12vw,210px);height:clamp(105px,13vw,205px);object-fit:contain;filter:drop-shadow(0 7px 6px #240b3e)}
+.workshop__companion p {position:relative;z-index:1;width:clamp(132px,17vw,240px);margin:-5px auto 0;padding:12px 10px;background:#fff5df;border:3px solid #a453ba;border-radius:48% / 35%;box-shadow:0 5px 10px #260e3d;text-align:center;font-size:clamp(11px,1.05vw,16px);font-weight:600;line-height:1.35}
+.workshop__companion p::before {content:'';position:absolute;top:-13px;left:48%;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:13px solid #a453ba}
+.workshop__companion strong {display:block;color:#713397;font-size:1.1em}
+.workshop__bench {position:relative;min-width:0;padding-bottom:clamp(50px,8vw,125px);background:linear-gradient(to bottom,transparent 0 83%,#a96932 83%,#60321f 98%);border-radius:8px 8px 26px 26px}
+.workshop__missions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(7px,1vw,15px);margin:0 0 22px;padding:0}
+.workshop__mission-tab {position:relative;min-width:0;min-height:clamp(70px,7vw,106px);display:flex;align-items:center;gap:clamp(4px,1vw,14px);padding:10px 12px;border:4px ridge #f1c47e;border-radius:20px;background:linear-gradient(165deg,#f2c58c,#c78a4d 55%,#92562e);box-shadow:0 7px 0 #663a28,0 9px 16px #170b27bb,inset 0 0 0 2px #a76331;color:#43252a;text-align:left;cursor:pointer;font-family:inherit}
+.workshop__mission-tab.is-active {background:linear-gradient(160deg,#8f35ac,#4c1c72);color:#fff6d9;border-color:#ffd16d;box-shadow:0 6px 0 #542450,0 0 0 3px #ad6c28,0 0 22px #ffc04d}
+.workshop__mission-tab:disabled {cursor:not-allowed;filter:saturate(.8)}
+.workshop__tab-icon {font-size:clamp(24px,3vw,47px);line-height:1}
+.workshop__tab-copy {display:flex;flex-direction:column;gap:4px;min-width:0}
+.workshop__tab-copy strong {font-size:clamp(12px,1.25vw,20px)}
+.workshop__tab-copy small {font-size:clamp(9px,.95vw,15px);line-height:1.2;font-weight:700}
+.workshop__lock {position:absolute;top:-14px;right:4px;font-size:clamp(20px,2.5vw,37px);filter:drop-shadow(0 2px 2px #4a2719)}
+.workshop__parchment {position:relative;margin:0 auto;max-width:1050px;min-height:420px;padding:clamp(16px,2.6vw,42px) clamp(17px,3.5vw,60px) clamp(18px,2vw,32px);border:8px ridge #b87940;border-radius:30px;background:radial-gradient(ellipse at 48% 30%,#fff1d0 0%,#f9dfac 58%,#e6b977 100%);box-shadow:inset 0 0 0 3px #f7d9a1,inset 0 0 40px #bd7b4099,0 12px 0 #8e4e2a,0 20px 30px #21102c9c;text-align:center}
+.workshop__parchment::before,.workshop__parchment::after {content:'❦';position:absolute;top:39%;font-size:clamp(21px,2.8vw,42px);color:#c68c48;opacity:.7;pointer-events:none}
+.workshop__parchment::before {left:10px}.workshop__parchment::after {right:10px;transform:scaleX(-1)}
+.workshop__mission-icon {font-size:clamp(34px,3.3vw,52px);line-height:1}
+.workshop__counter {display:none}
+.workshop__parchment h2 {margin:3px 0 5px;color:#65267c;font-size:clamp(22px,2.5vw,37px);line-height:1.2;text-shadow:0 1px #fff5db}
+.workshop__description {margin:0 0 9px;font-size:clamp(13px,1.3vw,20px);font-weight:800}
+.workshop__instruction {margin:0 0 15px;font-size:clamp(12px,1.05vw,16px);font-weight:600}
+.workshop__steps {list-style:none;display:grid;gap:7px;max-width:680px;margin:0 auto;padding:0}
+.workshop__step {display:flex;align-items:center;gap:clamp(8px,1.3vw,20px);min-height:clamp(46px,4.1vw,64px);padding:5px 10px;border:2px solid #b457c2;border-radius:14px;background:linear-gradient(#fff8e7,#f9e9c9);box-shadow:0 3px 0 #a96a97,0 4px 9px #5b265d44;text-align:left}
+.workshop__step.is-dragging {position:relative;z-index:5;box-shadow:0 8px 23px #7c3593a8;transform-origin:center}
+.workshop__step-icon {flex:0 0 clamp(30px,3.2vw,50px);text-align:center;font-size:clamp(22px,2.4vw,35px)}
+.workshop__step-text {flex:1;min-width:0;font-weight:800;font-size:clamp(12px,1.3vw,19px);line-height:1.25}
+.workshop__drag {flex:0 0 38px;height:40px;border:0;background:transparent;color:#763b93;font-size:29px;cursor:grab;touch-action:none;user-select:none}
+.workshop__drag:active {cursor:grabbing}
+.workshop__drag:disabled {opacity:.3;cursor:default}
+.workshop__feedback {min-height:22px;margin:10px 0 0;color:#79268d;font-weight:800;font-size:clamp(12px,1.1vw,16px)}
+.workshop__hint {max-width:680px;margin:10px auto;padding:9px 13px;border:2px dashed #bb8a51;border-radius:12px;background:#fff9e9;font-size:14px}
+.workshop__actions {display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(8px,2vw,28px);margin-top:6px}
+.workshop__hint-button,.workshop__check {border:4px ridge #f8d184;border-radius:18px;padding:10px clamp(12px,1.6vw,25px);font-family:inherit;font-size:clamp(12px,1.2vw,17px);font-weight:900;cursor:pointer;box-shadow:0 5px 0 #905525,0 8px 14px #391e37a0}
+.workshop__hint-button {background:linear-gradient(#fff6dc,#f4d5a2);color:#49283d}
+.workshop__check {background:linear-gradient(#8735b1,#4b166f);color:#fff5df;text-shadow:0 1px 2px #36104e}
+.workshop__wood-front {position:absolute;left:0;right:0;bottom:0;height:clamp(50px,8vw,125px);border:6px ridge #a36c39;border-radius:4px 4px 20px 20px;background:repeating-linear-gradient(90deg,#69391f 0,#8e512c 10%,#b16e36 12%,#754023 22%,#6c371e 25%);box-shadow:inset 0 12px 18px #48251a,0 12px 25px #1a092a}
+.workshop__wood-front span {position:absolute;left:50%;top:-4px;transform:translateX(-50%);display:grid;place-items:center;width:clamp(90px,12vw,160px);height:clamp(65px,7vw,95px);background:linear-gradient(#8d36aa,#4b1a75);border:3px solid #dba451;border-radius:0 0 35px 35px;color:#dca75b;font-size:clamp(33px,4vw,55px);text-shadow:0 3px #5b266b}
+.workshop__sparkles {position:absolute;inset:7% 0 auto;pointer-events:none;text-align:center;color:#ffd679;font-size:clamp(18px,2vw,32px);letter-spacing:8vw;opacity:.55;animation:workshop-twinkle 3s ease-in-out infinite alternate}
+.workshop__glow {position:absolute;z-index:0;bottom:18%;color:#fff5ad;font-size:50px;pointer-events:none;animation:workshop-twinkle 2.7s ease-in-out infinite alternate}
+.workshop__glow--left {left:5%}.workshop__glow--right {right:4%;animation-delay:1s}
+@keyframes workshop-twinkle {from {opacity:.15;transform:translateY(0)}to {opacity:.9;transform:translateY(-10px)}}
+.workshop button:focus-visible {outline:3px solid #fff7a1;outline-offset:3px}
+@media (max-width:1000px) { .workshop__room {padding:16px 14px 28px}.workshop__layout {grid-template-columns:clamp(115px,21%,190px) minmax(0,1fr);gap:10px}.workshop__missions {gap:6px;margin-bottom:14px}.workshop__mission-tab {padding:7px;min-height:67px;border-width:3px;border-radius:12px}.workshop__parchment {padding:17px 19px 22px;border-width:5px}.workshop__companions {padding-top:85px}.workshop__companion p {width:100%} }
+@media (max-width:760px) and (orientation:portrait) { .workshop__room {background-position:center top;background-size:auto 100%;overflow:visible}.workshop__header {grid-template-columns:1fr auto}.workshop__heading {grid-column:1/-1;grid-row:1}.workshop__back {grid-column:1;grid-row:2}.workshop__stars {grid-column:2;grid-row:2}.workshop__layout {display:flex;flex-direction:column}.workshop__bench {order:1;width:100%}.workshop__companions {order:2;flex-direction:row;justify-content:space-around;padding:15px 0 0;width:100%}.workshop__companion {width:45%}.workshop__companion img {height:90px}.workshop__companion p {max-width:170px}.workshop__parchment {min-height:0}.workshop__tab-copy small {font-size:10px}.workshop__tab-icon {font-size:22px}.workshop__wood-front {height:60px}.workshop__bench {padding-bottom:60px}.workshop__heading h1 {white-space:normal} }
+@media (max-width:900px) and (orientation:landscape) { .workshop__room {min-height:100dvh;padding:10px 12px 20px;background-position:center center}.workshop__header {margin-bottom:9px}.workshop__heading {padding:4px 10px}.workshop__eyebrow {margin:-11px auto 0}.workshop__heading h1 {font-size:23px}.workshop__back {padding:6px 9px}.workshop__stars {font-size:22px;min-height:32px}.workshop__layout {grid-template-columns:clamp(90px,19%,160px) minmax(0,1fr)}.workshop__companions {padding-top:45px;gap:8px}.workshop__companion img {height:80px}.workshop__companion p {font-size:10px;padding:7px 5px}.workshop__mission-tab {min-height:53px;padding:5px}.workshop__tab-icon {font-size:21px}.workshop__tab-copy strong {font-size:11px}.workshop__tab-copy small {font-size:9px}.workshop__parchment {min-height:0;padding:10px 16px 12px}.workshop__mission-icon {font-size:28px}.workshop__parchment h2 {font-size:21px}.workshop__description,.workshop__instruction {font-size:11px;margin-bottom:5px}.workshop__steps {gap:5px}.workshop__step {min-height:39px;padding:3px 7px}.workshop__step-text {font-size:11px}.workshop__step-icon {font-size:20px;flex-basis:26px}.workshop__drag {height:30px;flex-basis:28px;font-size:23px}.workshop__feedback {margin-top:4px;min-height:14px;font-size:10px}.workshop__hint-button,.workshop__check {padding:6px 9px;font-size:11px}.workshop__bench {padding-bottom:50px}.workshop__wood-front {height:50px} }
+@media (prefers-reduced-motion:reduce) { .workshop__sparkles,.workshop__glow {animation:none} }
+
+/* v8.4: μαγική ανταμοιβή για την πρώτη αποστολή.
+   Δεν αλλάζει τη διάταξη ή το drag & drop. */
+.workshop__parchment { position: relative; }
+.workshop__flower-magic {
+  position: absolute;
+  z-index: 12;
+  inset: 10px;
+  border: 3px solid #f5ca6e;
+  border-radius: 23px;
+  background: radial-gradient(circle at 50% 36%, rgba(255,250,219,.98), rgba(241,211,154,.98) 75%);
+  box-shadow: inset 0 0 32px #f8e6a5, 0 0 24px #f5c35e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  text-align: center;
+  color: #623083;
+  pointer-events: auto;
+  animation: workshopFlowerAppear .45s ease-out both;
+}
+.workshop__flower-rays {
+  position: absolute;
+  top: 15%;
+  font-size: clamp(16px, 3vw, 30px);
+  color: #b6781f;
+  letter-spacing: .65em;
+  animation: workshopFlowerTwinkle 1s ease-in-out 3 alternate;
+}
+.workshop__flower-pot {
+  font-size: clamp(48px, 7vw, 84px);
+  line-height: 1;
+  animation: workshopPotRise .75s ease-out both;
+}
+.workshop__flower-bloom {
+  font-size: clamp(58px, 9vw, 112px);
+  line-height: 1;
+  filter: drop-shadow(0 0 12px #ffc35f);
+  animation: workshopBloom 1.4s .4s cubic-bezier(.2,1.5,.5,1) both;
+}
+.workshop__flower-magic strong { font-size: clamp(17px, 2.6vw, 28px); }
+.workshop__flower-magic > span:last-child { font-size: clamp(13px, 1.6vw, 19px); font-weight: 700; }
+@keyframes workshopFlowerAppear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.workshop__flower-continue {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: min(95%, 470px);
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 3px solid #e9b758;
+  border-radius: 18px;
+  background: linear-gradient(160deg, #8a43b6, #53247f);
+  color: #fff9dd;
+  font: 800 clamp(12px, 1.4vw, 17px) 'Poppins', system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #a56d36, 0 0 20px #f4c96b99;
+  animation: workshopContinuePulse 1.8s ease-in-out infinite alternate;
+}
+.workshop__flower-continue:hover { filter: brightness(1.12); }
+.workshop__flower-continue:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+@keyframes workshopContinuePulse {
+  from { box-shadow: 0 5px 0 #a56d36, 0 0 8px #f4c96b66; }
+  to { box-shadow: 0 5px 0 #a56d36, 0 0 28px #f4c96bcc; }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  .workshop__flower-magic { gap: 3px; inset: 5px; }
+  .workshop__flower-bloom { font-size: 44px; }
+  .workshop__flower-pot { font-size: 34px; }
+  .workshop__flower-rays { top: 5%; font-size: 14px; }
+  .workshop__flower-magic strong { font-size: 16px; }
+  .workshop__flower-magic > span:last-of-type { font-size: 12px; }
+  .workshop__flower-continue { margin-top: 3px; padding: 7px 10px; font-size: 11px; }
+}
+@keyframes workshopBloom {
+  from { opacity: 0; transform: translateY(55px) scale(.05) rotate(-18deg); }
+  55% { opacity: 1; }
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+@keyframes workshopPotRise {
+  from { opacity: 0; transform: translateY(45px) scale(.65); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes workshopFlowerTwinkle {
+  from { opacity: .3; transform: scale(.9); }
+  to { opacity: 1; transform: scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workshop__flower-magic, .workshop__flower-continue { animation: none; }
+  .workshop__flower-bloom, .workshop__flower-pot, .workshop__flower-rays { animation: none; }
+}
+
+/* Διαδραστικές ανταμοιβές 2 & 3 — εμφανίζονται μέχρι να πατηθεί το κουμπί. */
+.workshop__reward-magic {
+  position: absolute; z-index: 12; inset: 10px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center; padding: 12px;
+  border: 3px solid #f5ca6e; border-radius: 23px;
+  color: #623083;
+  background: radial-gradient(circle at 50% 35%, #fff7dc 0%, #e7c5f3 68%, #bb8bd3 100%);
+  box-shadow: inset 0 0 32px #fff1b6, 0 0 24px #f5c35e;
+  animation: workshopFlowerAppear .45s ease-out both;
+}
+.workshop__reward-magic--treasure {
+  background: radial-gradient(circle at 50% 35%, #fffbd9 0%, #f4d99b 66%, #d6a456 100%);
+}
+.workshop__reward-magic strong { font-size: clamp(17px, 2.6vw, 28px); }
+.workshop__reward-magic > span:not(.workshop__reward-sparkles) { font-size: clamp(13px, 1.6vw, 19px); font-weight: 700; }
+.workshop__reward-sparkles { color: #b17a24; letter-spacing: .4em; font-size: clamp(15px, 3vw, 26px); animation: workshopFlowerTwinkle 1.1s ease-in-out infinite alternate; }
+.workshop__potion-scene, .workshop__treasure-scene { position: relative; height: clamp(70px, 12vw, 150px); width: clamp(120px, 18vw, 220px); display: grid; place-items: center; }
+.workshop__potion-cauldron { font-size: clamp(65px, 10vw, 115px); line-height: 1; filter: drop-shadow(0 0 12px #bc63ff); animation: workshopPotionGlow 1.8s ease-in-out infinite alternate; }
+.workshop__potion-bubble { position: absolute; bottom: 28%; left: 42%; font-size: 22px; color: #b35bde; text-shadow: 0 0 8px #fff; animation: workshopBubbleRise 2.2s ease-out infinite; }
+.workshop__potion-bubble--two { left: 59%; animation-delay: .65s; font-size: 14px; }
+.workshop__potion-bubble--three { left: 32%; animation-delay: 1.25s; font-size: 18px; }
+.workshop__treasure-chest { font-size: clamp(68px, 10vw, 120px); line-height: 1; filter: drop-shadow(0 0 12px #ffcc47); animation: workshopTreasureOpen 1.4s ease-out both; }
+.workshop__treasure-light { position: absolute; top: 0; right: 10%; font-size: 44px; animation: workshopFlowerTwinkle .8s infinite alternate; }
+.workshop__treasure-key { position: absolute; bottom: 0; left: 0; font-size: 34px; transform: rotate(-30deg); }
+@keyframes workshopPotionGlow { from { filter: drop-shadow(0 0 4px #b35bde); transform: scale(.96); } to { filter: drop-shadow(0 0 24px #9e38e8); transform: scale(1.05); } }
+@keyframes workshopBubbleRise { from { opacity: 0; transform: translateY(0) scale(.5); } 20% { opacity: 1; } to { opacity: 0; transform: translateY(-85px) scale(1.4); } }
+@keyframes workshopTreasureOpen { from { opacity: 0; transform: translateY(30px) scale(.55) rotate(-8deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0); } }
+@media (max-width: 900px) and (orientation: landscape) {
+  .workshop__reward-magic { inset: 5px; gap: 3px; padding: 5px; }
+  .workshop__reward-sparkles { font-size: 14px; }
+  .workshop__potion-scene, .workshop__treasure-scene { height: 66px; }
+  .workshop__potion-cauldron, .workshop__treasure-chest { font-size: 57px; }
+  .workshop__reward-magic strong { font-size: 16px; }
+  .workshop__reward-magic > span:not(.workshop__reward-sparkles) { font-size: 12px; }
+  .workshop__reward-magic .workshop__flower-continue { margin-top: 3px; padding: 7px 10px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workshop__reward-magic, .workshop__reward-sparkles, .workshop__potion-cauldron,
+  .workshop__potion-bubble, .workshop__treasure-chest, .workshop__treasure-light { animation: none; }
+}
+
+
+/* =============================================================
+   v8.4 FAIRYTALE EDITION — ornate 3D finish, based on reference.
+   Purely visual overrides: missions, rewards, DnD remain intact.
+   ============================================================= */
+.workshop__heading {
+  position:relative;
+  border:5px ridge #f5cc71;
+  border-radius:19px 19px 24px 24px;
+  background:radial-gradient(ellipse at 50% 5%,#a74cc2 0%,#71248f 43%,#371149 100%);
+  box-shadow:inset 0 2px 0 #ffe9a8,inset 0 -9px 15px #290b44,
+    0 0 0 2px #50205c,0 6px 0 #4b2148,0 11px 20px #1b0928d9,0 0 26px #ffc75a88;
+}
+.workshop__heading::before,.workshop__heading::after {
+  content:'✦';position:absolute;top:50%;transform:translateY(-50%);
+  color:#ffdd8d;font-size:clamp(11px,1.8vw,22px);text-shadow:0 0 10px #fff3c1;
+  pointer-events:none;
+}
+.workshop__heading::before{left:8px}.workshop__heading::after{right:8px}
+.workshop__heading h1 {
+  color:#ffdf91!important;
+  -webkit-text-fill-color:#ffdf91;
+  text-shadow:0 2px 0 #723f35,0 3px 4px #240c3b,0 0 13px #ffe3a07d;
+}
+.workshop__eyebrow {
+  color:#ffeab0;border-color:#ffd77b;
+  background:linear-gradient(180deg,#792b92,#4b145e);
+  box-shadow:0 3px 0 #341047,0 0 12px #ffcf7c6e;
+}
+.workshop__mission-tab {
+  overflow:visible;
+  border-color:#efc27c;
+  background:linear-gradient(172deg,#ffe0a7 0%,#d49a59 28%,#aa6937 66%,#784023 100%);
+  box-shadow:inset 0 3px 2px #fff1c8a3,inset 0 -8px 9px #4f281a66,
+    0 7px 0 #5b2f21,0 10px 14px #160c24a8;
+  text-shadow:0 1px 0 #ffe4b97a;
+}
+.workshop__mission-tab::before {
+  content:'';position:absolute;inset:4px;border:1px solid #ffe3a7a8;
+  border-radius:12px;pointer-events:none;
+}
+.workshop__mission-tab.is-active {
+  background:radial-gradient(ellipse at 35% 15%,#a64ac1,#6d238e 55%,#3c145d);
+  box-shadow:inset 0 2px 3px #f7ccff7d,inset 0 -8px 11px #2d0c43,
+    0 6px 0 #5a3043,0 0 0 2px #c48d45,0 0 22px #ffca68aa;
+  text-shadow:0 1px 3px #2d0e40;
+}
+.workshop__mission-tab.is-active::before{border-color:#ffe4aa8c}
+.workshop__parchment {
+  isolation:isolate;
+  border:9px ridge #b87d43;
+  border-radius:42px 34px 40px 36px / 34px 43px 37px 42px;
+  background:
+    radial-gradient(ellipse at 12% 12%,#fff9dfc4,transparent 42%),
+    radial-gradient(ellipse at 92% 84%,#c886426b,transparent 45%),
+    repeating-linear-gradient(112deg,transparent 0 17px,#a96c2610 18px 19px,transparent 20px 35px),
+    radial-gradient(ellipse at 48% 38%,#fff2cf 0%,#f5dbac 58%,#ddb074 100%);
+  box-shadow:inset 0 0 0 3px #fbe2aa,inset 0 0 0 7px #b8783e75,
+    inset 0 0 37px #8c4d267a,0 10px 0 #794421,0 17px 0 #4b2819,
+    0 22px 32px #170b2cbb,0 0 22px #f6c36b45;
+}
+.workshop__parchment::before,.workshop__parchment::after {
+  content:'❦';top:8px;z-index:0;opacity:.9;
+  font-size:clamp(26px,3.3vw,48px);color:#9c612e;
+  text-shadow:0 1px #fff1c8,0 2px 2px #74421c;
+}
+.workshop__parchment::before{left:13px;transform:rotate(-26deg)}
+.workshop__parchment::after{right:13px;transform:scaleX(-1) rotate(-26deg)}
+.workshop__parchment h2 {
+  color:#68247e;
+  text-shadow:0 2px 0 #fff4d8,0 0 9px #ffebbb;
+}
+.workshop__mission-icon {filter:drop-shadow(0 3px 3px #8b4d3d75)}
+.workshop__step {
+  position:relative;
+  border:2px solid #b56baf;
+  border-radius:15px;
+  background:linear-gradient(170deg,#fffdf1 0%,#fff3d8 55%,#f1d7a9 100%);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 #dbb985,
+    0 3px 0 #965c90,0 5px 10px #4c204c55;
+  transition:box-shadow .18s ease,filter .18s ease;
+}
+.workshop__step:has(.workshop__drag:hover),
+.workshop__step:has(.workshop__drag:focus-visible) {
+  box-shadow:inset 0 1px 0 #fff,0 3px 0 #965c90,0 0 17px #d38affaa;
+}
+.workshop__step.is-dragging {
+  filter:brightness(1.06);
+  box-shadow:0 12px 28px #682878b5,0 0 21px #e6a4ff;
+}
+.workshop__drag {color:#833c9f;text-shadow:0 0 6px #d59cfa77}
+.workshop__hint-button,.workshop__check {
+  border-color:#f8d68d;
+  box-shadow:inset 0 2px 1px #fff8d1a8,inset 0 -4px 5px #32103966,
+    0 5px 0 #86512c,0 8px 13px #29142f8a;
+}
+.workshop__check {
+  background:linear-gradient(170deg,#a14ac2 0%,#73238f 48%,#4b166c 100%);
+  text-shadow:0 1px 3px #240935;
+}
+.workshop__companion img {
+  filter:drop-shadow(0 9px 5px #210b38aa) drop-shadow(0 0 9px #f3bd6b5e);
+}
+.workshop__companion p {
+  background:radial-gradient(ellipse at 45% 15%,#fffdf0,#fce8c8);
+  border-color:#b27aaf;
+  box-shadow:inset 0 2px 0 #fff,0 4px 0 #6b3674,0 7px 12px #1c0d30a8;
+}
+.workshop__wood-front {
+  border-color:#ba834c;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 12px,#3d1b1266 13px 15px,transparent 16px 31px),
+    repeating-linear-gradient(90deg,#6b381d 0,#a56a36 12%,#cb8744 15%,#754024 29%,#61321d 33%);
+  box-shadow:inset 0 6px 4px #e6a65d70,inset 0 16px 18px #4b2619,
+    0 11px 25px #1a092a;
+}
+.workshop__wood-front span {
+  border-color:#e9b85f;
+  background:linear-gradient(#a74ab8,#602181 60%,#401354);
+  box-shadow:inset 0 2px 0 #ffdfad8a,0 4px 10px #2a1134;
+}
+.workshop__flower-magic,.workshop__reward-magic {
+  border:4px ridge #e9ba6a;
+  box-shadow:inset 0 0 0 3px #fff1bf,inset 0 0 30px #f9e4b8,0 0 23px #f5c35e;
+}
+.workshop__flower-continue {
+  border-color:#ffdb8e;
+  background:linear-gradient(170deg,#a950c4,#65248a 65%,#48165f);
+}
+@media (max-width:900px) and (orientation:landscape) {
+  .workshop__parchment {border-width:5px;border-radius:24px 22px 26px 23px}
+  .workshop__parchment::before,.workshop__parchment::after {font-size:20px;top:5px}
+  .workshop__heading::before,.workshop__heading::after {font-size:11px}
+  .workshop__heading::before {left:3px}.workshop__heading::after {right:3px}
+  .workshop__mission-tab::before {inset:2px;border-radius:7px}
+}
+@media (max-width:760px) and (orientation:portrait) {
+  .workshop__parchment {border-width:5px;border-radius:26px 24px 27px 25px}
+  .workshop__parchment::before,.workshop__parchment::after {font-size:20px;top:4px}
+  .workshop__heading::before,.workshop__heading::after {font-size:11px}
+}
+@media (prefers-reduced-motion:reduce) {
+  .workshop__step {transition:none}
+}
+
+
+/* v8.4 Roomier Workshop — actual composition changes, not just decoration.
+   The image is 1672×941 (16:9). Cover crops its sides on narrow screens. */
+.workshop__room {
+  background-color:#231238;
+  background-image:linear-gradient(180deg,rgba(29,12,47,.03),rgba(29,12,47,.06)),url('/assets/magical-workshop-background.webp');
+  background-position:center top;
+}
+/* Wide displays: give the castle room to breathe. */
+@media (min-width:1100px) {
+  .workshop__room {padding:24px clamp(28px,4vw,90px) 65px;}
+  .workshop__header {max-width:1300px;margin-bottom:28px;}
+  .workshop__layout {max-width:1300px;grid-template-columns:minmax(190px,260px) minmax(0,880px);gap:clamp(35px,5vw,90px);justify-content:center;}
+  .workshop__bench {max-width:880px;}
+  .workshop__missions {margin-bottom:24px;}
+  .workshop__parchment {max-width:820px;padding-left:clamp(28px,4vw,60px);padding-right:clamp(28px,4vw,60px);}
+  .workshop__companions {padding-top:85px;}
+}
+/* Tablet / narrow desktop: less crop and a little more visible room around the bench. */
+@media (min-width:901px) and (max-width:1099px) {
+  .workshop__layout {max-width:970px;grid-template-columns:minmax(155px,22%) minmax(0,1fr);gap:24px;}
+  .workshop__parchment {max-width:750px;}
+}
+/* Small landscape phones: show more of the original picture horizontally.
+   The image is intentionally allowed to end below; the color/wood backdrop fills the rest.
+   Keep the drag targets and mission text at their tested sizes. */
+@media (max-width:900px) and (orientation:landscape) {
+  .workshop__room {
+    background-image:linear-gradient(180deg,rgba(35,18,56,0) 0%,rgba(35,18,56,.08) 58%,#4a2543 100%),url('/assets/magical-workshop-background.webp');
+    background-size:100% 100%, 112% auto;
+    background-position:center top,center top;
+    background-repeat:no-repeat;
+    padding-left:clamp(12px,2.5vw,24px);
+    padding-right:clamp(12px,2.5vw,24px);
+  }
+  .workshop__layout {grid-template-columns:clamp(90px,18%,150px) minmax(0,1fr);gap:clamp(12px,2.4vw,22px);}
+  .workshop__bench {max-width:100%;}
+  .workshop__missions {margin-bottom:17px;}
+  .workshop__parchment {width:98%;margin-inline:auto;}
+}
+/* Portrait keeps its original proven stacking. */
+
+
+/* v8.4 LANDSCAPE STAGE: visual breathing room without changing mission logic.
+   16:9 composition; preserve natural scroll on short screens. */
+@media (orientation:landscape) {
+  .workshop__room {
+    background-color:#25153c;
+    background-image:linear-gradient(180deg,rgba(25,12,40,.03),rgba(25,12,40,.10)),url('/assets/magical-workshop-background.webp');
+    background-position:center top,center top;
+    background-repeat:no-repeat;
+    background-size:100% 100%,100% auto;
+    min-height:100dvh;
+  }
+  .workshop__header {max-width:1500px;}
+  .workshop__layout {max-width:1500px;}
+  .workshop__bench {background:transparent;}
+  .workshop__parchment {max-width:900px;}
+}
+/* Wider desktop/tablet landscapes: side margins expose more of the room. */
+@media (min-width:1000px) and (orientation:landscape) {
+  .workshop__room {padding-inline:clamp(28px,5vw,100px);}
+  .workshop__header {max-width:1320px;margin-bottom:24px;}
+  .workshop__layout {max-width:1320px;grid-template-columns:minmax(175px,240px) minmax(0,840px);gap:clamp(30px,4.5vw,80px);justify-content:center;}
+  .workshop__bench {max-width:840px;}
+  .workshop__parchment {max-width:800px;}
+}
+/* On a phone, reclaim vertical room from margins rather than shrinking drag targets. */
+@media (max-width:900px) and (orientation:landscape) {
+  .workshop__room {
+    padding:8px clamp(10px,2vw,20px) 18px;
+    background-image:linear-gradient(180deg,rgba(35,18,56,.02),rgba(35,18,56,.16)),url('/assets/magical-workshop-background.webp');
+    background-size:100% 100%,100% auto;
+    background-position:center top,center top;
+  }
+  .workshop__header {margin-bottom:8px;}
+  .workshop__layout {grid-template-columns:clamp(84px,17%,145px) minmax(0,1fr);gap:clamp(8px,1.5vw,16px);}
+  .workshop__companions {padding-top:30px;}
+  .workshop__missions {margin-bottom:9px;}
+  .workshop__bench {padding-bottom:42px;}
+  .workshop__wood-front {height:42px;}
+  .workshop__parchment {width:100%;min-height:0;padding:9px 15px 11px;}
+  .workshop__parchment h2 {margin:1px 0 3px;}
+  .workshop__instruction {margin-bottom:4px;}
+  .workshop__steps {gap:4px;}
+  .workshop__actions {margin-top:4px;}
+}
+
+/* MAGICAL WORKSHOP 2.0: illustrated scroll / landscape stage */
+.workshop__room{background:#24153e url('/assets/magical-workshop-background.webp') center top/cover no-repeat;overflow:visible;padding-bottom:110px}
+.workshop__header{max-width:1560px;margin-bottom:22px;align-items:center}
+.workshop__heading{position:relative;background:linear-gradient(155deg,#9936b8,#5c167e 65%,#3d0c60);border:4px ridge #ffd777;border-radius:22px;box-shadow:0 0 0 3px #712276,0 7px 0 #35104a,0 0 25px #ffc35a99,inset 0 3px 15px #ed9fff77}
+.workshop__heading h1{color:#ffe6a1;font-weight:900;text-shadow:0 2px #3b1352,0 0 12px #ffda8c}
+.workshop__heading:before,.workshop__heading:after{content:'✦';position:absolute;top:35%;color:#ffe8a6;font-size:22px;text-shadow:0 0 10px #fff}
+.workshop__heading:before{left:9px}.workshop__heading:after{right:9px}
+.workshop__layout{max-width:1560px;grid-template-columns:minmax(155px,24%) minmax(0,1fr);gap:clamp(8px,1.7vw,28px)}
+.workshop__companions{padding-top:clamp(95px,10vw,160px)}
+.workshop__companion img{max-width:clamp(135px,14vw,225px);height:clamp(120px,14vw,220px);filter:drop-shadow(0 9px 10px #200b37) drop-shadow(0 0 8px #d09bff66)}
+.workshop__companion p{background:linear-gradient(#fff9e7,#ffe8c7);border:3px solid #9b4bae;box-shadow:0 4px 0 #67327a,0 8px 16px #240b34}
+.workshop__bench{background:none;padding-bottom:clamp(80px,10vw,155px)}
+.workshop__missions{max-width:1100px;margin:0 auto clamp(12px,1.6vw,24px)}
+.workshop__mission-tab{background:linear-gradient(160deg,#f9d59b,#c18a4f 58%,#8b4d2c);border:4px ridge #f4c77b;border-radius:18px;box-shadow:inset 0 3px 8px #ffedc6a8,0 6px 0 #5b3526,0 10px 15px #1d0b2c}
+.workshop__mission-tab.is-active{background:linear-gradient(155deg,#9c3cba,#511775);box-shadow:inset 0 3px 9px #d78aff88,0 6px 0 #502052,0 0 0 3px #e5ac53,0 0 22px #ffcc62}
+.workshop__parchment{position:relative;width:100%;max-width:1120px;min-height:clamp(530px,51vw,760px);margin:0 auto;padding:clamp(100px,10vw,155px) clamp(55px,7vw,112px) clamp(85px,8vw,125px);border:0;border-radius:0;background:transparent url('/assets/magical-scroll-v2.webp') center/100% 100% no-repeat;box-shadow:none;filter:drop-shadow(0 15px 19px #180924bb);isolation:isolate}
+.workshop__parchment:before,.workshop__parchment:after{display:none}
+.workshop__mission-icon{font-size:clamp(32px,3.5vw,53px)}
+.workshop__parchment h2{font-size:clamp(23px,2.8vw,41px);color:#65237c;text-shadow:0 2px #fff4d9}
+.workshop__description{font-size:clamp(13px,1.3vw,20px);color:#26133c}
+.workshop__instruction{font-size:clamp(11px,1.1vw,17px)}
+.workshop__steps{max-width:790px;gap:clamp(6px,.75vw,11px)}
+.workshop__step{min-height:clamp(43px,4.1vw,64px);background:linear-gradient(#fff9e7,#ffefcb);border:2px solid #a84abd;border-radius:16px;box-shadow:0 3px 0 #ad78a4,0 5px 12px #6e3b5a55;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.workshop__step:hover:not(.is-dragging){box-shadow:0 3px 0 #ad78a4,0 0 16px #b65fce99}
+.workshop__step.is-dragging{cursor:grabbing;box-shadow:0 8px 24px #9d4ac7,0 0 14px #ffe19a}
+.workshop__step:focus-visible{outline:3px solid #ffd263;outline-offset:2px}
+.workshop__drag{display:grid;place-items:center;flex:0 0 30px;height:36px;pointer-events:none;color:#80369c;font-size:26px}
+.workshop__hint-button,.workshop__check{border:4px ridge #f8d184;box-shadow:0 5px 0 #88501f,0 0 14px #ffda7999}
+.workshop__check{background:linear-gradient(#a444be,#621489 65%,#480a69)}
+.workshop__wood-front{left:-4%;right:-4%;height:clamp(95px,11vw,160px);border:7px ridge #b87a40;border-radius:15px 15px 23px 23px;box-shadow:inset 0 12px 18px #48241a,0 15px 30px #170a27}
+.workshop__flower-magic,.workshop__reward-magic{inset:clamp(75px,8vw,120px) clamp(45px,6vw,100px);border-radius:22px}
+@media(max-width:900px) and (orientation:landscape){
+.workshop__room{padding:8px 10px 80px;background-position:center top;background-size:cover}
+.workshop__header{margin-bottom:10px}.workshop__heading{padding:5px 18px}.workshop__heading h1{font-size:clamp(19px,3vw,26px)}.workshop__heading:before,.workshop__heading:after{font-size:13px}
+.workshop__layout{grid-template-columns:minmax(112px,24%) minmax(0,1fr);gap:4px}.workshop__companions{padding-top:80px;gap:9px}.workshop__companion img{height:clamp(90px,16vw,125px)}
+.workshop__bench{padding-bottom:82px}.workshop__missions{gap:5px;margin-bottom:7px}.workshop__mission-tab{min-height:56px;padding:5px;border-width:3px}.workshop__tab-icon{font-size:23px}.workshop__tab-copy strong{font-size:11px}.workshop__tab-copy small{font-size:9px}
+.workshop__parchment{min-height:485px;padding:89px 42px 80px}.workshop__mission-icon{font-size:28px}.workshop__parchment h2{font-size:clamp(20px,3vw,26px);margin:1px 0 2px}.workshop__description{font-size:12px;margin-bottom:4px}.workshop__instruction{font-size:10px;margin-bottom:8px}
+.workshop__steps{gap:6px}.workshop__step{min-height:39px;padding:4px 8px}.workshop__step-icon{font-size:20px;flex-basis:28px}.workshop__step-text{font-size:11px}.workshop__drag{height:28px;flex-basis:24px;font-size:22px}
+.workshop__feedback{min-height:14px;margin:5px 0 0}.workshop__actions{gap:8px;margin-top:4px}.workshop__hint-button,.workshop__check{padding:7px 10px;font-size:11px}.workshop__wood-front{height:82px}.workshop__flower-magic,.workshop__reward-magic{inset:75px 39px 70px}
+}
+@media(max-width:760px) and (orientation:portrait){.workshop__parchment{min-height:540px;padding:92px 42px 90px}.workshop__room{padding-bottom:95px}.workshop__flower-magic,.workshop__reward-magic{inset:75px 37px}}
+
+
+/* ===== Magical Workshop 2.1 — HORIZONTAL SCROLL / responsive scene ===== */
+/* Keep the illustrated scroll's native 1672:941 proportion. */
+.workshop__room { overflow-x:clip; padding-bottom:clamp(30px,4vw,75px); background-position:center top; }
+.workshop__layout {max-width:1550px; grid-template-columns:minmax(165px,23%) minmax(0,1fr); gap:clamp(8px,1.5vw,24px);}
+.workshop__bench {padding-bottom:0; background:none;}
+.workshop__missions {margin-bottom:clamp(8px,1vw,15px);}
+.workshop__parchment {
+  width:100%; max-width:1150px; aspect-ratio:1672/941; min-height:0;
+  padding:clamp(58px,7.4vw,115px) clamp(55px,7.8vw,115px) clamp(48px,6vw,92px);
+  background-size:100% 100%; background-position:center;
+  display:flex; flex-direction:column; justify-content:center;
+  filter:drop-shadow(0 13px 17px #190b22b0);
+}
+.workshop__mission-icon {font-size:clamp(26px,2.7vw,43px);line-height:1;}
+.workshop__parchment h2 {font-size:clamp(22px,2.5vw,38px);margin:1px 0 2px;}
+.workshop__description {font-size:clamp(12px,1.15vw,18px);margin-bottom:4px;}
+.workshop__instruction {font-size:clamp(11px,.95vw,15px);margin-bottom:8px;}
+.workshop__steps {width:100%;max-width:720px;gap:clamp(4px,.55vw,9px);}
+.workshop__step {min-height:clamp(36px,3.3vw,53px);padding:4px 10px;}
+.workshop__step-text {font-size:clamp(12px,1.15vw,18px);}
+.workshop__step-icon {font-size:clamp(19px,2vw,30px);flex-basis:clamp(26px,2.5vw,40px);}
+.workshop__actions {display:flex;flex-direction:row;flex-wrap:wrap;gap:clamp(7px,1.4vw,19px);margin-top:8px;}
+.workshop__hint-button,.workshop__check {padding:8px clamp(10px,1.1vw,20px);font-size:clamp(11px,1vw,16px);}
+.workshop__wood-front {position:relative;left:auto;right:auto;bottom:auto;height:clamp(48px,6vw,90px);margin:-15px -2% 0;z-index:-1;}
+.workshop__wood-front span {height:clamp(50px,6vw,85px);}
+.workshop__companions {padding-top:clamp(65px,8vw,130px);}
+.workshop__flower-magic,.workshop__reward-magic {inset:12% 10%;}
+@media (min-width:1250px) {
+ .workshop__parchment {padding:105px 110px 82px;}
+ .workshop__steps {gap:8px;}
+ .workshop__step {min-height:52px;}
+}
+/* Mid-sized screens: give the scroll room; avoid a narrow poster. */
+@media (min-width:761px) and (max-width:1100px) {
+ .workshop__layout {grid-template-columns:minmax(125px,19%) minmax(0,1fr);gap:8px;}
+ .workshop__companions {padding-top:70px;}
+ .workshop__parchment {padding:8% 9% 7%;}
+ .workshop__mission-icon {font-size:25px;}
+ .workshop__parchment h2 {font-size:clamp(19px,2.6vw,27px);}
+ .workshop__description,.workshop__instruction {font-size:11px;margin-bottom:4px;}
+ .workshop__step {min-height:34px;}
+ .workshop__step-text {font-size:11px;}
+ .workshop__actions {margin-top:4px;}
+ .workshop__hint-button,.workshop__check {padding:5px 8px;font-size:10px;}
+}
+/* Short landscape phones: prioritize readable drag targets, allow vertical scroll. */
+@media (max-width:760px) and (orientation:landscape) {
+ .workshop__room {padding:8px 8px 36px;background-position:center top;background-size:cover;}
+ .workshop__header {grid-template-columns:1fr 2.5fr 1fr;gap:4px;margin-bottom:8px;}
+ .workshop__heading {padding:6px 17px;}
+ .workshop__heading h1 {font-size:clamp(17px,3.3vw,23px);}
+ .workshop__layout {grid-template-columns:minmax(85px,18%) minmax(0,1fr);gap:4px;}
+ .workshop__companions {padding-top:72px;gap:8px;}
+ .workshop__companion img {height:clamp(75px,15vw,115px);}
+ .workshop__companion p {font-size:9px;padding:6px 3px;}
+ .workshop__missions {gap:4px;margin-bottom:7px;}
+ .workshop__mission-tab {min-height:55px;padding:3px;border-width:2px;}
+ .workshop__tab-icon {font-size:18px;}
+ .workshop__tab-copy strong {font-size:10px;}
+ .workshop__tab-copy small {font-size:8px;}
+ .workshop__parchment {aspect-ratio:auto;min-height:430px;padding:67px 38px 62px;background-size:100% 100%;}
+ .workshop__mission-icon {font-size:24px;}
+ .workshop__parchment h2 {font-size:20px;}
+ .workshop__description,.workshop__instruction {font-size:10px;margin-bottom:4px;}
+ .workshop__steps {gap:5px;}
+ .workshop__step {min-height:39px;padding:3px 6px;}
+ .workshop__step-text {font-size:11px;}
+ .workshop__step-icon {font-size:20px;flex-basis:23px;}
+ .workshop__actions {flex-direction:row;gap:6px;}
+ .workshop__hint-button,.workshop__check {font-size:10px;padding:5px 7px;}
+ .workshop__wood-front {height:48px;margin-top:-10px;}
+ .workshop__flower-magic,.workshop__reward-magic {inset:57px 30px;}
+}
+/* Very narrow screens: stack the cast below the scroll without hiding controls. */
+@media (max-width:760px) and (orientation:portrait) {
+ .workshop__layout {display:flex;flex-direction:column;}
+ .workshop__bench {order:1;width:100%;}
+ .workshop__companions {order:2;flex-direction:row;justify-content:space-around;padding:12px 0;}
+ .workshop__parchment {aspect-ratio:auto;min-height:470px;padding:76px 40px 70px;}
+ .workshop__actions {flex-direction:row;}
+ .workshop__flower-magic,.workshop__reward-magic {inset:60px 30px;}
+}
+
+/* === v2.2: character lift and clearer magical tiles === */
+@media (min-width:901px) {
+ .workshop__companions {padding-top:clamp(28px,4vw,68px);gap:clamp(6px,1vw,15px)}
+ .workshop__companion img {height:clamp(112px,12vw,190px)}
+}
+.workshop__mission-tab {display:flex;align-items:center;gap:clamp(7px,1vw,15px);padding:9px clamp(8px,1.2vw,18px);min-width:0;overflow:visible}
+.workshop__tab-icon {flex:0 0 auto;line-height:1.1}
+.workshop__tab-copy {min-width:0;flex:1;gap:3px;overflow-wrap:normal}
+.workshop__tab-copy strong {line-height:1.15;white-space:normal}
+.workshop__tab-copy small {line-height:1.25;white-space:normal}
+.workshop__lock {z-index:2}
+.workshop__step {position:relative;display:flex;align-items:center;gap:clamp(8px,1.3vw,18px);border:2px solid #a94dbb;border-radius:15px;background:linear-gradient(180deg,#fffdf1 0%,#fff4d8 72%,#f5dfb8 100%);box-shadow:inset 0 2px 1px #fffdf9,0 3px 0 #ac7da2,0 5px 10px #663b584d;transition:box-shadow .15s ease,background .15s ease;}
+.workshop__step-icon {display:grid;place-items:center;flex-shrink:0;line-height:1.2;filter:drop-shadow(0 1px 1px #a9794e55)}
+.workshop__step-text {flex:1;min-width:0;line-height:1.3;overflow-wrap:break-word}
+.workshop__drag {flex-shrink:0;opacity:.85}
+.workshop__step:hover:not(.is-dragging) {background:linear-gradient(#fffdf4,#fff1cd);box-shadow:inset 0 1px #fff,0 3px 0 #aa6ba5,0 0 14px #bf65d48a}
+.workshop__step.is-dragging {z-index:8;background:#fff5d8;box-shadow:0 8px 25px #722d91a8,0 0 15px #fbd16c}
+@media (min-width:761px) and (max-width:1100px) {
+ .workshop__companions {padding-top:35px;gap:8px}
+ .workshop__mission-tab {padding:6px 8px;gap:6px}
+ .workshop__tab-copy strong {font-size:clamp(11px,1.25vw,15px)}
+ .workshop__tab-copy small {font-size:clamp(9px,1vw,12px)}
+}
+@media (max-width:900px) and (orientation:landscape) {
+ .workshop__companions {padding-top:38px;gap:7px}
+ .workshop__mission-tab {padding:5px 6px;gap:5px}
+ .workshop__tab-copy strong {font-size:11px}
+ .workshop__tab-copy small {font-size:9px}
+ .workshop__step {min-height:40px;gap:7px}
+}
+@media (max-width:760px) and (orientation:portrait) {
+ .workshop__companions {padding-top:12px}
+}
+@media (prefers-reduced-motion:reduce) {.workshop__step {transition:none}}
+
+/* v2.3: precise visual alignment and accessible title contrast. */
+.workshop__header {
+  grid-template-columns: minmax(0,1fr) minmax(0,2.4fr) minmax(0,1fr);
+  align-items: center;
+}
+.workshop__heading {
+  width: min(100%, 590px);
+  min-width: 0;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.workshop__heading h1 {
+  width: 100%;
+  text-align: center;
+  color: #ffe7a5;
+  margin-left: 0;
+  margin-right: 0;
+}
+/* Move the activity heading below the upper decorative scroll crest. */
+.workshop__parchment h2 {
+  position: relative;
+  z-index: 1;
+  color: #512077;
+  text-shadow: 0 2px 0 #fff4d8, 0 0 4px #ffe5a0;
+  font-weight: 900;
+  margin-top: 13px;
+}
+.workshop__mission-tab:not(.is-active) .workshop__tab-copy strong {
+  color: #422036;
+  text-shadow: 0 1px 0 #ffe7b6;
+}
+.workshop__mission-tab:not(.is-active) .workshop__tab-copy small {
+  color: #4e2c34;
+  text-shadow: 0 1px 0 #f6d9aa;
+}
+.workshop__mission-tab.is-active .workshop__tab-copy strong,
+.workshop__mission-tab.is-active .workshop__tab-copy small {
+  color: #fff5d7;
+  text-shadow: 0 2px 2px #361045;
+}
+@media (max-width:900px) and (orientation:landscape) {
+  .workshop__heading {width:100%;}
+  .workshop__parchment h2 {margin-top: 8px;}
+}
+
+
+
+/* v2.7 — illustrated reward screen. A single isolated flex layout,
+   no absolute-positioned emoji or inherited reward overlay. */
+.workshop__parchment.is-rewarding {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:clamp(320px,31vw,480px);
+  padding:clamp(42px,5vw,78px) clamp(44px,6vw,88px);
+  overflow:visible;
+}
+.workshop__parchment.is-rewarding > .workshop__reward-panel {
+  position:relative;
+  inset:auto;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  max-width:100%;
+  min-height:0;
+  margin:0;
+  padding:0;
+  gap:clamp(5px,.7vw,10px);
+  text-align:center;
+  background:none;
+  border:0;
+  box-shadow:none;
+}
+.workshop__parchment.is-rewarding .workshop__reward-sparkles {
+  position:static;
+  inset:auto;
+  display:block;
+  flex:none;
+  margin:0;
+  padding:0;
+  line-height:1;
+  font-size:clamp(13px,1.4vw,20px);
+  color:#a97322;
+  letter-spacing:.24em;
+}
+.workshop__parchment.is-rewarding .workshop__reward-art {
+  display:block;
+  flex:0 1 auto;
+  width:auto;
+  height:clamp(74px,10vw,145px);
+  max-width:100%;
+  object-fit:contain;
+  object-position:center;
+  filter:drop-shadow(0 5px 9px #8e55926e);
+  animation:workshopRewardFloat 3s ease-in-out infinite;
+}
+.workshop__parchment.is-rewarding .workshop__reward-title {
+  display:block;
+  margin:0;
+  padding:0;
+  font-size:clamp(18px,2.15vw,30px);
+  line-height:1.2;
+  color:#64267c;
+  text-shadow:0 1px #fff4d5;
+}
+.workshop__parchment.is-rewarding .workshop__reward-stars {
+  margin:0;
+  padding:0;
+  font-size:clamp(13px,1.5vw,21px);
+  line-height:1.25;
+  color:#713c86;
+  font-weight:800;
+}
+.workshop__parchment.is-rewarding .workshop__reward-next {
+  position:static;
+  display:block;
+  flex:0 0 auto;
+  width:min(100%,480px);
+  min-height:44px;
+  margin:clamp(5px,1vw,14px) 0 0;
+  padding:10px 18px;
+  border:3px solid #f9d47a;
+  border-radius:16px;
+  background:linear-gradient(180deg,#aa4bbd,#681889 80%);
+  box-shadow:0 5px 0 #9b6534,0 0 14px #a963c180;
+  color:#fff9e8;
+  font:inherit;
+  font-size:clamp(13px,1.4vw,19px);
+  font-weight:800;
+  line-height:1.2;
+  text-shadow:0 1px #4d155b;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.workshop__reward-next:hover {filter:brightness(1.12)}
+.workshop__reward-next:focus-visible {outline:3px solid #712f9a;outline-offset:3px}
+@keyframes workshopRewardFloat {0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media (max-width:900px) and (orientation:landscape) {
+  .workshop__parchment.is-rewarding {
+    min-height:290px;
+    padding:clamp(30px,5vw,48px) clamp(28px,5vw,52px);
+  }
+  .workshop__parchment.is-rewarding > .workshop__reward-panel {gap:4px}
+  .workshop__parchment.is-rewarding .workshop__reward-art {height:clamp(70px,10vw,105px)}
+  .workshop__parchment.is-rewarding .workshop__reward-title {font-size:clamp(17px,2.3vw,23px)}
+  .workshop__parchment.is-rewarding .workshop__reward-stars {font-size:clamp(12px,1.7vw,17px)}
+  .workshop__parchment.is-rewarding .workshop__reward-next {font-size:clamp(12px,1.7vw,16px);padding:8px 12px;margin-top:5px}
+}
+@media (prefers-reduced-motion:reduce) {
+  .workshop__parchment.is-rewarding .workshop__reward-art {animation:none}
+}

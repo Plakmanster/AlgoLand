@@ -243,3 +243,19 @@
   .castle-library-leaf--left { border-bottom: 3px double #d1aa6d; }
   .castle-library-leaf--right { padding-top: 24px; }
 }
+
+/* Theory content expansion: readable chapters and responsive two-page book */
+.castle-library-chapters { gap: 8px; }
+.castle-library-chapters button { font-size: clamp(.75rem, 1vw, .95rem); }
+.castle-library-leaf { overflow-wrap: break-word; }
+.castle-library-leaf strong { color: #58307e; }
+.castle-library-lesson-footer .castle-library-primary { background: linear-gradient(135deg,#25875b,#176d4a); }
+@media (max-width: 900px) and (orientation: landscape) {
+  .castle-library-lesson { width: min(98%, 1050px); }
+  .castle-library-lesson-body { padding: 12px; }
+  .castle-library-chapters { gap: 5px; margin-bottom: 12px; }
+  .castle-library-chapters button { padding: 7px 9px; font-size: .76rem; }
+  .castle-library-leaf { padding: 16px; font-size: .9rem; }
+  .castle-library-leaf h2 { font-size: 1.15rem; }
+  .castle-library-leaf p { margin-bottom: 10px; }
+}

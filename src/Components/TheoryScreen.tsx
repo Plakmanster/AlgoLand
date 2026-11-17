@@ -20,15 +20,15 @@ const companions: Record<AvatarId, Companion> = {
 const chapters = [
   { title: "Τι είναι ο αλγόριθμος;", icon: "✨" },
   { title: "Αλγόριθμοι παντού!", icon: "🏡" },
-  { title: "Μικρή δοκιμασία", icon: "🗝️" },
+  { title: "Εντολές και ακολουθία", icon: "🧩" },
+  { title: "Βρίσκω και διορθώνω λάθη", icon: "🔍" },
+  { title: "Έτοιμοι για αποστολή!", icon: "🚀" },
 ];
 
 export default function TheoryScreen({ avatarId, onBack, onNext }: Props) {
   const [bookOpen, setBookOpen] = useState(false);
   const [chapter, setChapter] = useState(0);
-  const [answer, setAnswer] = useState<number | null>(null);
   const companion = avatarId ? companions[avatarId] : null;
-  const correct = answer === 1;
 
   return (
     <main className="castle-library">
@@ -90,6 +90,8 @@ export default function TheoryScreen({ avatarId, onBack, onNext }: Props) {
                     <>
                       <h2>✨ Τι είναι ο αλγόριθμος;</h2>
                       <p>Ένας <strong>αλγόριθμος</strong> είναι μια σειρά από ξεκάθαρα βήματα που ακολουθούμε για να πετύχουμε έναν στόχο ή να λύσουμε ένα πρόβλημα.</p>
+                      <p>Κάθε αλγόριθμος έχει έναν <strong>στόχο</strong>, μια <strong>αρχή</strong> και βήματα που μπορούμε να ακολουθήσουμε.</p>
+                      <p>Οι οδηγίες πρέπει να είναι αρκετά σαφείς ώστε να καταλαβαίνει κάποιος τι ακριβώς χρειάζεται να κάνει.</p>
                       <p className="castle-library-tip">💡 <strong>Θυμήσου:</strong> Η σειρά των βημάτων έχει σημασία!</p>
                       <p className="castle-library-guide-note">🤖 <strong>AlgoBot:</strong> Σκέψου έναν αλγόριθμο σαν οδηγίες για μια μικρή αποστολή.</p>
                     </>
@@ -97,16 +99,33 @@ export default function TheoryScreen({ avatarId, onBack, onNext }: Props) {
                   {chapter === 1 && (
                     <>
                       <h2>🏡 Αλγόριθμοι παντού!</h2>
-                      <p>Χρησιμοποιούμε αλγορίθμους κάθε μέρα, ακόμη κι όταν δεν το καταλαβαίνουμε.</p>
+                      <p>Χρησιμοποιούμε αλγορίθμους κάθε μέρα, ακόμη κι όταν δεν το καταλαβαίνουμε: όταν ετοιμαζόμαστε για το σχολείο, φροντίζουμε ένα φυτό ή οργανώνουμε ένα παιχνίδι.</p>
+                      <p>Δεν χρειάζεται υπολογιστής για να υπάρχει αλγόριθμος. Αρκεί να έχουμε έναν στόχο και συγκεκριμένα βήματα.</p>
                       <div className="castle-library-example"><h3>🪥 Πλένω τα δόντια μου</h3><ol><li>Βάζω οδοντόκρεμα στην οδοντόβουρτσα.</li><li>Βουρτσίζω προσεκτικά τα δόντια μου.</li><li>Φτύνω την οδοντόκρεμα και καθαρίζω την οδοντόβουρτσα.</li></ol></div>
                     </>
                   )}
                   {chapter === 2 && (
                     <>
-                      <h2>🗝️ Ξεκλείδωσε τη γνώση!</h2>
-                      <p>Ώρα να χρησιμοποιήσεις όσα έμαθες για τη σωστή σειρά των βημάτων.</p>
-                      <p className="castle-library-tip">💡 <strong>Σκέψου:</strong> Τι πρέπει να γίνει πρώτο; Τι ακολουθεί; Τι γίνεται τελευταίο;</p>
-                      <p className="castle-library-guide-note">🤖 <strong>AlgoBot:</strong> Διάβασε προσεκτικά τις επιλογές στη δεξιά σελίδα!</p>
+                      <h2>🧩 Εντολές και ακολουθία</h2>
+                      <p>Μια <strong>εντολή</strong> είναι μια ξεκάθαρη οδηγία: «Προχώρησε δύο βήματα» ή «Πότισε τη γλάστρα».</p>
+                      <p><strong>Ακολουθία</strong> ονομάζουμε την εκτέλεση των εντολών με τη σειρά, από την πρώτη ως την τελευταία.</p>
+                      <p className="castle-library-tip">💡 Αν αλλάξουμε τη σειρά, μπορεί να αλλάξει και το αποτέλεσμα.</p>
+                    </>
+                  )}
+                  {chapter === 3 && (
+                    <>
+                      <h2>🔍 Μαθαίνω από τα λάθη</h2>
+                      <p>Μερικές φορές ένας αλγόριθμος δεν πετυχαίνει τον στόχο του. Τότε κοιτάζουμε προσεκτικά τα βήματα για να εντοπίσουμε τι δεν πήγε σωστά.</p>
+                      <p>Αυτή η διαδικασία λέγεται <strong>αποσφαλμάτωση</strong>: βρίσκω το λάθος, το διορθώνω και δοκιμάζω ξανά.</p>
+                      <p className="castle-library-guide-note">🤖 <strong>AlgoBot:</strong> Ένα λάθος είναι ευκαιρία να σκεφτούμε καλύτερα!</p>
+                    </>
+                  )}
+                  {chapter === 4 && (
+                    <>
+                      <h2>🚀 Ώρα για το Εργαστήριο!</h2>
+                      <p>Τώρα ξέρεις ότι ένας αλγόριθμος είναι μια σειρά από σαφείς εντολές που μας οδηγούν σε έναν στόχο.</p>
+                      <p>Στο <strong>Εργαστήριο Γρίφων</strong> θα μετακινήσεις μαγικές εντολές, θα ελέγξεις τη σειρά τους και θα ανακαλύψεις τι συμβαίνει όταν όλα μπουν στη σωστή θέση.</p>
+                      <p className="castle-library-tip">⭐ Δεν χρειάζεται να τα καταφέρεις με την πρώτη. Παρατήρησε, σκέψου και ξαναδοκίμασε!</p>
                     </>
                   )}
                 </article>
@@ -129,14 +148,27 @@ export default function TheoryScreen({ avatarId, onBack, onNext }: Props) {
                   )}
                   {chapter === 2 && (
                     <>
-                      <h2>❓ Μικρή δοκιμασία</h2>
-                      <p><strong>Ποια σειρά βημάτων είναι σωστή για να φτιάξουμε ένα τοστ;</strong></p>
-                      <div className="castle-library-answers">
-                        {["Ψήνω → Βάζω τυρί → Παίρνω ψωμί", "Παίρνω ψωμί → Βάζω τυρί → Ψήνω", "Βάζω τυρί → Ψήνω → Παίρνω ψωμί"].map((option, index) => (
-                          <button key={option} type="button" className={answer === index ? "selected" : ""} onClick={() => setAnswer(index)} aria-pressed={answer === index}>{option}</button>
-                        ))}
-                      </div>
-                      {answer !== null && <p className={correct ? "castle-library-feedback correct" : "castle-library-feedback"} role="status">{correct ? "🌟 Μπράβο! Πρώτα ετοιμάζουμε το τοστ και μετά το ψήνουμε!" : "🤖 Πολύ καλή προσπάθεια! Σκέψου: μπορούμε να ψήσουμε το τοστ πριν βάλουμε το τυρί;"}</p>}
+                      <h2>🌱 Φροντίζω ένα φυτό</h2>
+                      <p>Δες πώς μια ακολουθία εντολών μας βοηθά να πετύχουμε έναν στόχο:</p>
+                      <div className="castle-library-example"><ol><li>Γεμίζω τη γλάστρα με χώμα.</li><li>Βάζω τον σπόρο στο χώμα.</li><li>Ποτίζω τη γλάστρα.</li><li>Την τοποθετώ σε κατάλληλο φωτεινό σημείο.</li></ol></div>
+                      <p className="castle-library-tip">🌟 Αν ποτίσω μια άδεια γλάστρα, δεν έχω φυτέψει ακόμη τον σπόρο!</p>
+                    </>
+                  )}
+                  {chapter === 3 && (
+                    <>
+                      <h2>🛠️ Διορθώνω τη σειρά</h2>
+                      <p>Φαντάσου ότι ο AlgoBot θέλει να ετοιμάσει την τσάντα του, αλλά ακολουθεί αυτές τις οδηγίες:</p>
+                      <div className="castle-library-example"><ol><li>Κλείνω την τσάντα.</li><li>Βάζω μέσα τα βιβλία.</li><li>Ελέγχω το πρόγραμμα.</li></ol></div>
+                      <p>Η σειρά αυτή δεν τον βοηθά. Θα ήταν καλύτερα να <strong>ελέγξει πρώτα το πρόγραμμα</strong>, μετά να βάλει τα βιβλία και στο τέλος να κλείσει την τσάντα.</p>
+                      <p className="castle-library-tip">🔍 Ελέγχω τη σειρά, διορθώνω και δοκιμάζω ξανά.</p>
+                    </>
+                  )}
+                  {chapter === 4 && (
+                    <>
+                      <h2>🪄 Τρεις μαγικές αποστολές</h2>
+                      <div className="castle-library-example"><ol><li>🌸 Βοήθησε ένα μαγικό λουλούδι να ανθίσει.</li><li>🧪 Φτιάξε το Φίλτρο της Σοφίας.</li><li>🗝️ Ακολούθησε το Μονοπάτι του Θησαυρού.</li></ol></div>
+                      <p>Σε κάθε αποστολή θα σύρεις τις κάρτες στη σωστή σειρά και θα πατήσεις <strong>«Έλεγχος αλγορίθμου»</strong>.</p>
+                      <p className="castle-library-guide-note">🤖 <strong>AlgoBot:</strong> Έτοιμος; Πάμε να χρησιμοποιήσουμε όσα μάθαμε!</p>
                     </>
                   )}
                 </article>
@@ -144,10 +176,10 @@ export default function TheoryScreen({ avatarId, onBack, onNext }: Props) {
 
               <div className="castle-library-lesson-footer">
                 <button type="button" className="castle-library-secondary" onClick={() => chapter === 0 ? setBookOpen(false) : setChapter(chapter - 1)}>← {chapter === 0 ? "Κλείσιμο βιβλίου" : "Προηγούμενη σελίδα"}</button>
-                {chapter < 2 ? (
+                {chapter < chapters.length - 1 ? (
                   <button type="button" className="castle-library-primary" onClick={() => setChapter(chapter + 1)}>Επόμενη σελίδα →</button>
                 ) : (
-                  <button type="button" className="castle-library-primary" onClick={onNext} disabled={!correct}>Στο Εργαστήριο Γρίφων →</button>
+                  <button type="button" className="castle-library-primary" onClick={onNext}>Στο Εργαστήριο Γρίφων →</button>
                 )}
               </div>
             </div>

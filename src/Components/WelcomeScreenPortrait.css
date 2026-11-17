@@ -1,0 +1,23 @@
+/* Only on touch devices held horizontally on the welcome screen. */
+.algoland-welcome-portrait-notice { display: none; }
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+  .algoland-welcome-portrait-notice {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px;
+    text-align: center;
+    color: #fff7dd;
+    background: linear-gradient(145deg, #27144e, #6041a0);
+    font-family: Poppins, system-ui, sans-serif;
+    font-size: clamp(16px, 3vw, 22px);
+    line-height: 1.5;
+  }
+  .algoland-welcome-portrait-notice strong { font-size: clamp(20px, 4vw, 30px); }
+  .algoland-welcome-portrait-icon { font-size: 64px; }
+}
